@@ -46,7 +46,7 @@ public class PessoaController {
 
 
     @GetMapping(path ="/{id}" )
-    @ApiOperation(value = "Obter um remedio pelo seu ID")
+    @ApiOperation(value = "Obter uma pessoa pelo seu ID")
     public Pessoa findById(@PathVariable Long id)throws Exception{
 
         return pessoaService.findById(id);
