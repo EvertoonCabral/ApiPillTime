@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "Idoso")
 @ApiModel(description = "Modelo de representação de um idoso")
-public class Idosos {
+public class Idosos extends Pessoa{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

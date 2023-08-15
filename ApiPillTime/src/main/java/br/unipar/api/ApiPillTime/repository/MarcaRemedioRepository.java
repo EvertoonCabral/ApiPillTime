@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MarcaRemedioRepository extends JpaRepository<MarcaRemedio, Long>{
-    
+
     @Query
     public List<MarcaRemedio> findByNomeContainingAllIgnoringCase(String nome);
 
