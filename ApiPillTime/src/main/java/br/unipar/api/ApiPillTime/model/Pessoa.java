@@ -51,6 +51,8 @@ public class Pessoa {
         this.stAtivo = stAtivo = true;
     }
 
+    public Pessoa() {
+    }
 
     public Long getId() {
         return id;

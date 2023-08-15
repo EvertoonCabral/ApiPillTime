@@ -2,8 +2,7 @@ package br.unipar.api.ApiPillTime.model;
 
 import io.swagger.annotations.ApiModel;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -11,16 +10,38 @@ import java.util.List;
 @ApiModel(description = "Modelo de representação de um idoso")
 public class Idosos {
 
-    private List<Alarme> alarmesIdoso;
-    private List<Remedio> RemediosIdosos;
-    private Cuidador responsavel;
-    private String observacao;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Idosos(List<Alarme> alarmesIdoso, List<Remedio> remediosIdosos, Cuidador responsavel, String observacao) {
+    @OneToMany
+    private List<Alarme> alarmesIdoso;
+
+
+    @ManyToOne
+    @JoinColumn(name = "CuidadorId")
+    private Cuidador cuidador;
+    private String observacao;
+    private boolean stAtivo;
+
+    public Idosos(Long id, List<Alarme> alarmesIdoso, Cuidador cuidador, String observacao, boolean stAtivo) {
+        this.id = id;
         this.alarmesIdoso = alarmesIdoso;
-        RemediosIdosos = remediosIdosos;
-        this.responsavel = responsavel;
+        this.cuidador = cuidador;
         this.observacao = observacao;
+        this.stAtivo = stAtivo;
+    }
+
+    public Idosos() {
+
+    }
+
+    public boolean isStAtivo() {
+        return stAtivo;
+    }
+
+    public void setStAtivo(boolean stAtivo) {
+        this.stAtivo = stAtivo;
     }
 
     public List<Alarme> getAlarmesIdoso() {
@@ -31,20 +52,20 @@ public class Idosos {
         this.alarmesIdoso = alarmesIdoso;
     }
 
-    public List<Remedio> getRemediosIdosos() {
-        return RemediosIdosos;
+    public Long getId() {
+        return id;
     }
 
-    public void setRemediosIdosos(List<Remedio> remediosIdosos) {
-        RemediosIdosos = remediosIdosos;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Cuidador getResponsavel() {
-        return responsavel;
+    public Cuidador getCuidador() {
+        return cuidador;
     }
 
-    public void setResponsavel(Cuidador responsavel) {
-        this.responsavel = responsavel;
+    public void setCuidador(Cuidador responsavel) {
+        this.cuidador = responsavel;
     }
 
     public String getObservacao() {
@@ -58,10 +79,11 @@ public class Idosos {
     @Override
     public String toString() {
         return "Idosos{" +
-                "alarmesIdoso=" + alarmesIdoso +
-                ", RemediosIdosos=" + RemediosIdosos +
-                ", responsavel=" + responsavel +
+                "id=" + id +
+                ", alarmesIdoso=" + alarmesIdoso +
+                ", cuidador=" + cuidador +
                 ", observacao='" + observacao + '\'' +
+                ", stAtivo=" + stAtivo +
                 '}';
     }
 }

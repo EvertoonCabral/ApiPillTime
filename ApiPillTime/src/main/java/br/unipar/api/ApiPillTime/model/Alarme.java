@@ -8,6 +8,7 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Alarme")
@@ -21,23 +22,30 @@ public class Alarme {
     private String titulo;
     private String Descricao;
     private Date dtCadastrado;
-    private Date dtModificacao;
+    @ManyToOne
+    @JoinColumn(name = "IdosoId")
+    private Idosos idoso;
+    @OneToMany
+    private List<Remedio> RemediosIdosos;
     private LocalDateTime alarme;
     private boolean statusAlarme;
 
-    /*
-    *
-    *comentario teste
-    * */
-
-    public Alarme(Long id, String titulo, String descricao, Date dtCadastrado, Date dtModificacao, LocalDateTime alarme, boolean statusAlarme) {
+    public Alarme(Long id, String titulo, String descricao, Date dtCadastrado, Idosos idoso, LocalDateTime alarme, boolean statusAlarme) {
         this.id = id;
         this.titulo = titulo;
         Descricao = descricao;
         this.dtCadastrado = dtCadastrado;
-        this.dtModificacao = dtModificacao;
+        this.idoso = idoso;
         this.alarme = alarme;
         this.statusAlarme = statusAlarme;
+    }
+
+    public Idosos getIdoso() {
+        return idoso;
+    }
+
+    public void setIdoso(Idosos idoso) {
+        this.idoso = idoso;
     }
 
     public Alarme() {
@@ -75,14 +83,6 @@ public class Alarme {
         this.dtCadastrado = dtCadastrado;
     }
 
-    public Date getDtModificacao() {
-        return dtModificacao;
-    }
-
-    public void setDtModificacao(Date dtModificacao) {
-        this.dtModificacao = dtModificacao;
-    }
-
     public LocalDateTime getAlarme() {
         return alarme;
     }
@@ -99,16 +99,4 @@ public class Alarme {
         this.statusAlarme = statusAlarme;
     }
 
-    @Override
-    public String toString() {
-        return "Alarme{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", Descricao='" + Descricao + '\'' +
-                ", dtCadastrado=" + dtCadastrado +
-                ", dtModificacao=" + dtModificacao +
-                ", alarme=" + alarme +
-                ", statusAlarme=" + statusAlarme +
-                '}';
-    }
 }
