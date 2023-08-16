@@ -38,7 +38,9 @@ private String estado;
     @Column(updatable = false)
     private Date dataCadastro;
 
-    public Endereco(Long id, String estado, String cidade, String bairro, String numeroResidencia, String complemento, Date dataCadastro) {
+    private boolean stAtivo;
+
+    public Endereco(Long id, String estado, String cidade, String bairro, String numeroResidencia, String complemento, Date dataCadastro, boolean stAtivo) {
         this.id = id;
         this.estado = estado;
         this.cidade = cidade;
@@ -46,8 +48,10 @@ private String estado;
         this.numeroResidencia = numeroResidencia;
         this.complemento = complemento;
         this.dataCadastro = dataCadastro;
-
+        this.stAtivo = stAtivo;
     }
+
+
 
     public Endereco() {
     }
@@ -106,6 +110,14 @@ private String estado;
 
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    public boolean isStAtivo() {
+        return stAtivo;
+    }
+
+    public void setStAtivo(boolean stAtivo) {
+        this.stAtivo = stAtivo;
     }
 
     @Override

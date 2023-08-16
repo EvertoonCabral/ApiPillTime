@@ -28,4 +28,47 @@ public class MarcaRemedio {
     @Column(updatable = false)
     private Date dataCadastro;
 
+    private boolean stAtivo;
+
+    public MarcaRemedio(Long id, String nome, Date dataCadastro, boolean stAtivo) {
+        this.id = id;
+        this.nome = nome;
+        this.dataCadastro = dataCadastro;
+        this.stAtivo = stAtivo;
+    }
+
+    public MarcaRemedio( ) {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public boolean isStAtivo() {
+        return stAtivo;
+    }
+
+    public void setStAtivo(boolean stAtivo) {
+        this.stAtivo = stAtivo;
+    }
 }
