@@ -32,9 +32,9 @@ public class PessoaService {
 
     public void remove(Long id) throws Exception{
 
-        Pessoa pessoa = findById(id);
-        pessoa.setStAtivo(false);
-        pessoaRepository.saveAndFlush(pessoa);
+            Pessoa pessoa = findById(id);
+            pessoa.setStAtivo(false);
+            pessoaRepository.saveAndFlush(pessoa);
 
     }
 

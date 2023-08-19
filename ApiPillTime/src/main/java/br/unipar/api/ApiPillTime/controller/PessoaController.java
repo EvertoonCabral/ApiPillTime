@@ -4,6 +4,7 @@ import br.unipar.api.ApiPillTime.model.Pessoa;
 import br.unipar.api.ApiPillTime.service.PessoaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Api(tags = "API Pessoa", description = "Pessoa")
 public class PessoaController {
 
+    @Autowired
     private PessoaService pessoaService;
 
 
