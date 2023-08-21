@@ -5,6 +5,10 @@ import br.unipar.api.ApiPillTime.model.Pessoa;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

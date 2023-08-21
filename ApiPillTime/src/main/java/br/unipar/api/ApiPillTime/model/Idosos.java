@@ -1,6 +1,10 @@
 package br.unipar.api.ApiPillTime.model;
 
 import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +12,10 @@ import java.util.List;
 @Entity
 @Table(name = "Idoso")
 @ApiModel(description = "Modelo de representação de um idoso")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Idosos extends Pessoa{
 
     @Id
@@ -24,66 +32,5 @@ public class Idosos extends Pessoa{
     private String observacao;
     private boolean stAtivo;
 
-    public Idosos(Long id, List<Alarme> alarmesIdoso, Cuidador cuidador, String observacao, boolean stAtivo) {
-        this.id = id;
-        this.alarmesIdoso = alarmesIdoso;
-        this.cuidador = cuidador;
-        this.observacao = observacao;
-        this.stAtivo = stAtivo;
-    }
 
-    public Idosos() {
-
-    }
-
-    public boolean isStAtivo() {
-        return stAtivo;
-    }
-
-    public void setStAtivo(boolean stAtivo) {
-        this.stAtivo = stAtivo;
-    }
-
-    public List<Alarme> getAlarmesIdoso() {
-        return alarmesIdoso;
-    }
-
-    public void setAlarmesIdoso(List<Alarme> alarmesIdoso) {
-        this.alarmesIdoso = alarmesIdoso;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Cuidador getCuidador() {
-        return cuidador;
-    }
-
-    public void setCuidador(Cuidador responsavel) {
-        this.cuidador = responsavel;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
-    @Override
-    public String toString() {
-        return "Idosos{" +
-                "id=" + id +
-                ", alarmesIdoso=" + alarmesIdoso +
-                ", cuidador=" + cuidador +
-                ", observacao='" + observacao + '\'' +
-                ", stAtivo=" + stAtivo +
-                '}';
-    }
 }

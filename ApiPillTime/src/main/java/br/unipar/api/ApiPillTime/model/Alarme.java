@@ -2,6 +2,10 @@ package br.unipar.api.ApiPillTime.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.DateTimeException;
@@ -13,6 +17,10 @@ import java.util.List;
 @Entity
 @Table(name = "Alarme")
 @ApiModel(description = "Modelo de Alarme")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Alarme {
 
     @Id
@@ -30,73 +38,6 @@ public class Alarme {
     private LocalDateTime alarme;
     private boolean statusAlarme;
 
-    public Alarme(Long id, String titulo, String descricao, Date dtCadastrado, Idosos idoso, LocalDateTime alarme, boolean statusAlarme) {
-        this.id = id;
-        this.titulo = titulo;
-        Descricao = descricao;
-        this.dtCadastrado = dtCadastrado;
-        this.idoso = idoso;
-        this.alarme = alarme;
-        this.statusAlarme = statusAlarme;
-    }
 
-    public Idosos getIdoso() {
-        return idoso;
-    }
-
-    public void setIdoso(Idosos idoso) {
-        this.idoso = idoso;
-    }
-
-    public Alarme() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescricao() {
-        return Descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        Descricao = descricao;
-    }
-
-    public Date getDtCadastrado() {
-        return dtCadastrado;
-    }
-
-    public void setDtCadastrado(Date dtCadastrado) {
-        this.dtCadastrado = dtCadastrado;
-    }
-
-    public LocalDateTime getAlarme() {
-        return alarme;
-    }
-
-    public void setAlarme(LocalDateTime alarme) {
-        this.alarme = alarme;
-    }
-
-    public boolean isStatusAlarme() {
-        return statusAlarme;
-    }
-
-    public void setStatusAlarme(boolean statusAlarme) {
-        this.statusAlarme = statusAlarme;
-    }
 
 }

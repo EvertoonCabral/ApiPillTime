@@ -2,6 +2,10 @@ package br.unipar.api.ApiPillTime.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -14,6 +18,10 @@ import java.util.Date;
 @Entity
 @Table(name = "MarcaRemedio")
 @ApiModel(description = "Modelo de marcaRemedio")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class MarcaRemedio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,45 +38,5 @@ public class MarcaRemedio {
 
     private boolean stAtivo;
 
-    public MarcaRemedio(Long id, String nome, Date dataCadastro, boolean stAtivo) {
-        this.id = id;
-        this.nome = nome;
-        this.dataCadastro = dataCadastro;
-        this.stAtivo = stAtivo;
-    }
 
-    public MarcaRemedio( ) {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public boolean isStAtivo() {
-        return stAtivo;
-    }
-
-    public void setStAtivo(boolean stAtivo) {
-        this.stAtivo = stAtivo;
-    }
 }

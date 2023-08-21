@@ -2,6 +2,10 @@ package br.unipar.api.ApiPillTime.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +14,10 @@ import java.util.List;
 @Entity
 @Table(name = "Cuidador")
 @ApiModel(description = "Modelo para a representação de um cuidador")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Cuidador extends Pessoa {
 
     @Id
@@ -27,19 +35,5 @@ public class Cuidador extends Pessoa {
 //    private List<Alarme> listaAlarmes;
 
 
-    public Cuidador(Long id, String nome, Endereco endereco, Date dataNascimento, Date dataCadastro, String cpf, br.unipar.api.ApiPillTime.model.Telefone telefone, boolean stAtivo, List<Idosos> listaResposabilidade) {
-        super(id, nome, endereco, dataNascimento, dataCadastro, cpf, telefone, stAtivo);
-        this.listaResposabilidade = listaResposabilidade;
-    }
 
-    public Cuidador() {
-        super();
-    }
-    public List<Idosos> getListaResposabilidade() {
-        return listaResposabilidade;
-    }
-
-    public void setListaResposabilidade(List<Idosos> listaResposabilidade) {
-        this.listaResposabilidade = listaResposabilidade;
-    }
 }
