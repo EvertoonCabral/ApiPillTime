@@ -1,10 +1,13 @@
 package br.unipar.api.ApiPillTime.controller;
 
+import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.Remedio;
 import br.unipar.api.ApiPillTime.service.RemedioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,48 +19,67 @@ public class
 remedioController {
 
     @Autowired
-    private RemedioService remedioService;
+    private  RemedioService remedioService;
+
 
 
     @PostMapping
-    @ApiOperation(value= "Adicionar um Remedio")
-    public Remedio insert(@RequestBody Remedio remedio) throws Exception{
-
-        return remedioService.insert(remedio);
-
+    @ApiOperation(value = "Adicionar um Remedio")
+    public ResponseEntity<Object> insert(@RequestBody Remedio remedio) {
+        try {
+            Remedio novoRemedio = remedioService.insert(remedio);
+            return ResponseEntity.status(HttpStatus.CREATED).body(novoRemedio);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+        }
     }
 
-@PutMapping
-@ApiOperation(value = "Editar um Remedio")
-    public Remedio edit(@RequestBody Remedio remedio)throws Exception{
-
-        return remedioService.edit(remedio);
+    @PutMapping
+    @ApiOperation(value = "Editar um Remedio")
+    public ResponseEntity<Object> edit (@RequestBody Remedio remedio) {
+        try {
+            Remedio remedioEditado = remedioService.edit(remedio);
+            return ResponseEntity.ok(remedioEditado);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+        }
     }
-@DeleteMapping(path = "/{id}")
-@ApiOperation(value = "Deletar um remedio")
-public void delete(@PathVariable Long id)throws Exception{
 
-        remedioService.remove(id);
 
-}
 
-@GetMapping
-@ApiOperation("Retorna uma lista de todos os remedios")
-public List<Remedio> findAll(){
-        return remedioService.findAll();
-}
-@GetMapping(path ="/{id}" )
-@ApiOperation(value = "Obter um remedio pelo seu ID")
-public Remedio findById(@PathVariable Long id)throws Exception{
+    @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "Deletar um remedio")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        try {
+            remedioService.remove(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+        }
+    }
 
-        return remedioService.findById(id);
+    @GetMapping
+    @ApiOperation("Retorna uma lista de todos os remedios")
+    public ResponseEntity<List<Remedio>> findAllRemedios() {
+        List<Remedio> remedios = remedioService.findAll();
+        return ResponseEntity.ok(remedios);
+    }
 
-}
+    @GetMapping(path = "/{id}")
+    @ApiOperation(value = "Obter um remedio pelo seu ID")
+    public ResponseEntity<Object> findRemedioById(@PathVariable Long id) {
+        try {
+            Remedio remedio = remedioService.findById(id);
+            return ResponseEntity.ok(remedio);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping(path = "/filter")
     @ApiOperation(value = "Obter um remedio pelo seu nome")
-    public List<Remedio> findByFilters(@RequestParam("nome") String nome){
-
-        return remedioService.findByFilters(nome);
+    public ResponseEntity<List<Remedio>> findRemediosByFilters(@RequestParam("nome") String nome) {
+        List<Remedio> remedios = remedioService.findByFilters(nome);
+        return ResponseEntity.ok(remedios);
     }
-
 }

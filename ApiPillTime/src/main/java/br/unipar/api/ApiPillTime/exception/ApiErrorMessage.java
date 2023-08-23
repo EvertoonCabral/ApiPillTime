@@ -5,22 +5,30 @@ import java.util.List;
 
 public class ApiErrorMessage {
 
-    private List<String> errors;
+    private Object error;
 
-    public List<String> getError() {
-        return errors;
+    public Object getError() {
+        return error;
     }
 
-    public void setError(List<String> errors) {
-        this.errors = errors;
+    public void setError(Object error) {
+        this.error = error;
     }
 
-    public ApiErrorMessage(List<String> error) {
-        this.errors = error;
+    public ApiErrorMessage(Object error) {
+        this.error = error;
     }
 
-    public ApiErrorMessage(String error) {
-        this.errors = Arrays.asList(error);
+    public static ApiErrorMessage fromString(String errorMessage) {
+        return new ApiErrorMessage(errorMessage);
+    }
+
+    public static ApiErrorMessage fromList(List<String> errorList) {
+        return new ApiErrorMessage(errorList);
+    }
+
+    public static ApiErrorMessage fromException(Exception exception) {
+        return new ApiErrorMessage(exception.getMessage());
     }
 
 }
