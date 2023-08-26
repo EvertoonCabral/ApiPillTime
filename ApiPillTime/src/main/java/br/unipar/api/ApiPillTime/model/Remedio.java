@@ -43,7 +43,7 @@ public class Remedio {
     @CreationTimestamp
     @Column(updatable = false)
     private Date dataCadastro;
-    @UpdateTimestamp
+
     private Date dataValidade;
     private String observacoes;
 

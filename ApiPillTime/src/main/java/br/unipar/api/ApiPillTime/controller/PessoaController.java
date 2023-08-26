@@ -1,10 +1,13 @@
 package br.unipar.api.ApiPillTime.controller;
 
+import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.Pessoa;
 import br.unipar.api.ApiPillTime.service.PessoaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,45 +23,71 @@ public class PessoaController {
 
     @PostMapping
     @ApiOperation(value= "Adicionar um Pessoa")
-    public Pessoa insert(@RequestBody Pessoa pessoa) throws Exception{
+    public ResponseEntity<Object> insert(@RequestBody Pessoa pessoa)  {
 
-        return pessoaService.insert(pessoa);
+        try{
+              Pessoa p1 = pessoaService.insert(pessoa);
+              return ResponseEntity.status(HttpStatus.CREATED).body(p1);
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(ex.getMessage()));
+        }
 
     }
 
     @PutMapping
     @ApiOperation(value = "Editar um Pessoa")
-    public Pessoa edit(@RequestBody Pessoa pessoa)throws Exception{
+    public ResponseEntity<Object> edit(@RequestBody Pessoa pessoa) {
 
-        return pessoaService.edit(pessoa);
+        try{
+            Pessoa p1 = pessoaService.edit(pessoa);
+            return ResponseEntity.ok(p1);
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(ex.getMessage()));
+        }
+
+
     }
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Deletar um pessoa")
-    public void delete(@PathVariable Long id)throws Exception{
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
 
-        pessoaService.remove(id);
+       try {
+           pessoaService.remove(id);
+           return ResponseEntity.noContent().build();
 
+       }catch (Exception ex){
+           return  ResponseEntity.badRequest().body(new ApiErrorMessage(ex.getMessage()));
+       }
     }
 
     @GetMapping
     @ApiOperation("Retorna uma lista de todos os pessoa")
-    public List<Pessoa> findAll(){
-        return pessoaService.findAll();
+    public ResponseEntity<List<Pessoa>> findAll(){
+
+        List<Pessoa> pessoas = pessoaService.findAll();
+        return ResponseEntity.ok(pessoas);
     }
 
 
     @GetMapping(path ="/{id}" )
     @ApiOperation(value = "Obter uma pessoa pelo seu ID")
-    public Pessoa findById(@PathVariable Long id)throws Exception{
+    public ResponseEntity<Object> findById(@PathVariable Long id) {
 
-        return pessoaService.findById(id);
+        try{
+            Pessoa p1 = pessoaService.findById(id);
+            return ResponseEntity.ok(p1);
+
+        }catch (Exception ex){
+            return ResponseEntity.notFound().build();
+        }
+
 
     }
     @GetMapping(path = "/filter")
     @ApiOperation(value = "Obter uma pessoa pelo seu nome")
-    public List<Pessoa> findByFilters(@RequestParam("nome") String nome){
-
-        return pessoaService.findByFilters(nome);
+    public ResponseEntity<List<Pessoa>> findByFilters(@RequestParam("nome") String nome){
+        List<Pessoa> p1 = pessoaService.findByFilters(nome);
+        return ResponseEntity.ok(p1);
     }
 
 

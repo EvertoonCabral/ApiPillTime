@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -36,17 +37,16 @@ import java.util.Date;
     @NotNull
     @Size(min = 1, max = 255)
     private String nome;
-    @ManyToOne
-    private Endereco endereco;
-    @UpdateTimestamp
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataNascimento;
-
     @CreationTimestamp
     @Column(updatable = false)
     private Date dataCadastro;
     private String cpf;
     @OneToOne
     private Telefone Telefone;
+    @ManyToOne
+    private Endereco endereco;
     private boolean stAtivo;
 
 

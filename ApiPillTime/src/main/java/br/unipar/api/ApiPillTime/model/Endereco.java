@@ -23,9 +23,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class Endereco {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@ApiModelProperty(notes = "Id gerada automaticamente pelo sistema")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(notes = "Id gerada automaticamente pelo sistema")
     private Long id;
     @ApiModelProperty(notes = "Nome do Estado", required = true)
     @NotBlank
@@ -40,7 +40,8 @@ private String estado;
     @Size(min = 1, max = 255)
     private String cidade;
     private String bairro;
-    private String numeroResidencia;
+    private String rua;
+    private int numeroResidencia;
     private String complemento;
     @CreationTimestamp
     @Column(updatable = false)
