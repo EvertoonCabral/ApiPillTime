@@ -3,12 +3,8 @@ package br.unipar.api.ApiPillTime.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -24,6 +20,7 @@ import java.util.Date;
     @NoArgsConstructor
     @Getter
     @Setter
+    @EqualsAndHashCode(of = "id")
     public class Pessoa {
 
 
@@ -31,22 +28,29 @@ import java.util.Date;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(notes = "Id gerada automaticamente pelo sistema")
     private Long id;
+
     @ApiModelProperty(notes = "Nome da Pessoa", required = true)
     @NotBlank
     @NotEmpty
     @NotNull
     @Size(min = 1, max = 255)
     private String nome;
+
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataNascimento;
+
     @CreationTimestamp
     @Column(updatable = false)
     private Date dataCadastro;
     private String cpf;
+
     @OneToOne
     private Telefone Telefone;
+
     @ManyToOne
     private Endereco endereco;
+
     private boolean stAtivo;
 
 
