@@ -9,8 +9,8 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-@Table(name = "users")
-@Entity(name = "users")
+@Table(name = "usuario")
+@Entity(name = "usuario")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,7 +20,7 @@ public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String login;
     private String password;
     private UserRole role;
