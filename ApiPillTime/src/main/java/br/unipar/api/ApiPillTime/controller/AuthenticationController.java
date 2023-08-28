@@ -2,10 +2,7 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.service.AuthorizationService;
 import br.unipar.api.ApiPillTime.service.PessoaService;
-import br.unipar.api.ApiPillTime.user.AuthenticationDTO;
-import br.unipar.api.ApiPillTime.user.RegisterDTO;
-import br.unipar.api.ApiPillTime.user.UserRepository;
-import br.unipar.api.ApiPillTime.user.Usuario;
+import br.unipar.api.ApiPillTime.user.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,9 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
   @Autowired
+  private TokenService tokenService;
+
+  @Autowired
   private  UserRepository userRepository;
 
     @ApiOperation(value = "Realiza Login na Aplicação")
@@ -38,7 +38,10 @@ public class AuthenticationController {
         var userNamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getSenha());
         var auth = this.authenticationManager.authenticate(userNamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Usuario)auth.getPrincipal());
+
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
 
     }
 @PostMapping (path = "/register")
