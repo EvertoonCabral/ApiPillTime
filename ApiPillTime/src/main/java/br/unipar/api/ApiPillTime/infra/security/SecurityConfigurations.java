@@ -16,28 +16,27 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
-
+public class SecurityConfigurations {
 
     @Autowired
-    SecurityFillter securityFillter;
-
-    //Classe que vai validar se o usuario esta valido para fazer os request
-
+    SecurityFilter securityFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .antMatchers(HttpMethod.POST, "/remedio").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .antMatchers("/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui.htm", "/webjars/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(securityFillter, UsernamePasswordAuthenticationFilter.class)
+
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+
     }
 
     @Bean

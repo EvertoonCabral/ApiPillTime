@@ -16,38 +16,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class SecurityFillter extends OncePerRequestFilter {
+public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
     TokenService tokenService;
     @Autowired
-    UserRepository userRepository
+    UserRepository userRepository;
 
-    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-        var token  = this.recoverToken(request);
+        var token = this.recoverToken(request);
         if(token != null){
-
-            var login = tokenService.validaToken(token);
+            var login = tokenService.validateToken(token);
             UserDetails user = userRepository.findByLogin(login);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-             SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
-
-
     }
 
     private String recoverToken(HttpServletRequest request){
-
-    var authHeader = request.getHeader("Authorization");
-    if(authHeader ==null) return  null;
-    return authHeader.replace("Bearer","");
-
-
+        var authHeader = request.getHeader("Authorization");
+        if(authHeader == null) return null;
+        return authHeader.replace("Bearer ", "");
     }
-
 }

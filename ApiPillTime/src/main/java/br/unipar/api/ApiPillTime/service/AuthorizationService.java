@@ -11,10 +11,15 @@ import org.springframework.stereotype.Service;
 public class AuthorizationService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    UserRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByLogin(username);
+        UserDetails user = repository.findByLogin(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("Usuário inexistente ou senha inválida");
+        }
+        return user;
     }
 }

@@ -5,6 +5,14 @@ public class AuthenticationDTO {
     private String login;
     private String senha;
 
+    public AuthenticationDTO(String login, String senha) {
+        this.login = login;
+        this.senha = senha;
+    }
+
+    public AuthenticationDTO() {
+    }
+
     public String getLogin() {
         return login;
     }
