@@ -29,7 +29,7 @@ public class Cuidador extends Pessoa {
    private List<Remedio> listaRemedio;
 
     @OneToMany
-    private List<Idosos> listaResposabilidade;
+    private List<Idosos> listaIdoso;
 
 //    @ManyToMany
 //    private List<Alarme> listaAlarmes;

@@ -39,8 +39,8 @@ public class Remedio {
     @Size(min = 1, max = 255)
     private String nome;
 
-    @ManyToOne
-    private MarcaRemedio marcaRemedio;
+
+    private String marcaRemedio;
 
     private String dosagem;
 
