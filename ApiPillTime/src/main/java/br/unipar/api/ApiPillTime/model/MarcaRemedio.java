@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -27,13 +28,16 @@ public class MarcaRemedio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(notes = "Id gerado automaticamente pelo sistema")
     private Long id;
+
     @NotBlank
     @NotEmpty
     @NotNull
     @Size(min = 1, max = 255)
     private String nome;
+
     @CreationTimestamp
     @Column(updatable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataCadastro;
 
     private boolean stAtivo;

@@ -25,12 +25,5 @@ public class Telefone {
     private String telefone;
     private boolean stAtivo;
 
-    @Override
-    public String toString() {
-        return "Telefone{" +
-                "id=" + id +
-                ", dd='" + dd + '\'' +
-                ", telefone='" + telefone + '\'' +
-                '}';
-    }
+
 }

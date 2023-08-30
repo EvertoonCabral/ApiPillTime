@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -45,6 +46,7 @@ private String estado;
     private String complemento;
     @CreationTimestamp
     @Column(updatable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataCadastro;
 
     private boolean stAtivo;

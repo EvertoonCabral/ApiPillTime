@@ -45,7 +45,7 @@ public Cuidador findByid(Long id) throws Exception{
     if (retorno.isPresent())
         return retorno.get();
      else
-        throw new Exception("Marca com Id "+id+" Não Identificada");
+        throw new Exception("Cuidador com Id "+id+" Não Identificado");
 }
     public List<Cuidador> findByFilters(String nome) {
 

@@ -43,6 +43,7 @@ import java.util.Date;
     @CreationTimestamp
     @Column(updatable = false)
     private Date dataCadastro;
+
     private String cpf;
 
     @OneToOne

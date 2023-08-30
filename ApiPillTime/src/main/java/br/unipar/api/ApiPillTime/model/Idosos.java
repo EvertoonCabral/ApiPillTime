@@ -29,7 +29,9 @@ public class Idosos extends Pessoa{
     @ManyToOne
     @JoinColumn(name = "CuidadorId")
     private Cuidador cuidador;
+
     private String observacao;
+
     private boolean stAtivo;
 
 

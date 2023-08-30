@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -30,21 +31,29 @@ public class Remedio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(notes = "Id autogerado pelo sistema")
     private Long id;
+
     @ApiModelProperty(notes = "Nome do Remedio", required = true)
     @NotBlank
     @NotEmpty
     @NotNull
     @Size(min = 1, max = 255)
     private String nome;
+
     @ManyToOne
     private MarcaRemedio marcaRemedio;
+
     private String dosagem;
+
     private String formaFarmaceutico;
+
     @CreationTimestamp
     @Column(updatable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataCadastro;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataValidade;
+
     private String observacoes;
 
     private boolean stAtivo;
