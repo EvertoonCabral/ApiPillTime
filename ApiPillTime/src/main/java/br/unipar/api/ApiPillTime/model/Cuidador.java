@@ -31,8 +31,6 @@ public class Cuidador extends Pessoa {
     @OneToMany
     private List<Idosos> listaIdoso;
 
-//    @ManyToMany
-//    private List<Alarme> listaAlarmes;
 
 
 

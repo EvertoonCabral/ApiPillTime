@@ -1,7 +1,9 @@
 package br.unipar.api.ApiPillTime.controller;
 
+import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.Pessoa;
+import br.unipar.api.ApiPillTime.model.Remedio;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,6 +55,7 @@ public class CuidadorController {
         return cuidadorService.findByid(id);
 
     }
+
     @GetMapping(path = "/filter")
     @ApiOperation(value = "Obter um cuidador pelo seu nome")
     public List<Cuidador> findByFilters(@RequestParam("nome")String nome) throws Exception{
@@ -59,6 +63,23 @@ public class CuidadorController {
         return cuidadorService.findByFilters(nome);
 
     }
+
+    @PostMapping(path = "/{cuidadorId}/adicionar-remedio")
+    @ApiOperation(value = "Adicionar um remédio à lista de remédios de um cuidador")
+    public ResponseEntity<Object> addRemedioToCuidador(
+            @PathVariable Long cuidadorId, @RequestBody Remedio remedio) {
+        try {
+            Cuidador cuidador = cuidadorService.findByid(cuidadorId);
+            cuidador.getListaRemedio().add(remedio);
+            Cuidador cuidadorAtualizado = cuidadorService.edit(cuidador);
+            return ResponseEntity.ok(cuidadorAtualizado);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+        }
+    }
+
+
+
 
 
 }
