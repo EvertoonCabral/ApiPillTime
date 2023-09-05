@@ -63,7 +63,7 @@ public class Idoso {
     private Cuidador cuidador;
 
     private String observacao;
-    
+
     @OneToMany(mappedBy = "idoso")
     private List<RemedioIdoso> remediosAssociados;
 
