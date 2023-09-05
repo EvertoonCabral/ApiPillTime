@@ -47,9 +47,11 @@ import java.util.Date;
     private String cpf;
 
     @OneToOne
+    @JoinColumn(name = "telefonePessoa")
     private Telefone Telefone;
 
     @ManyToOne
+    @JoinColumn(name = "endereçoPessoa")
     private Endereco endereco;
 
     private boolean stAtivo;

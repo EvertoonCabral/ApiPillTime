@@ -1,6 +1,6 @@
 package br.unipar.api.ApiPillTime.controller;
 
-import br.unipar.api.ApiPillTime.model.Idosos;
+import br.unipar.api.ApiPillTime.model.Idoso;
 import br.unipar.api.ApiPillTime.service.IdosoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/idoso")
@@ -19,15 +18,15 @@ public class IdososController {
 
     @PostMapping
     @ApiOperation(value = "Insere um novo usuario do tipo idoso")
-    public Idosos insert(@RequestBody Idosos idosos) throws Exception{
+    public Idoso insert(@RequestBody Idoso idoso) throws Exception{
 
-        return idosoService.insert(idosos);
+        return idosoService.insert(idoso);
 
     }
     @PutMapping
     @ApiOperation(value = "Editar um idoso")
-    public Idosos edit(@RequestBody Idosos idosos) throws Exception{
-        return idosoService.update(idosos);
+    public Idoso edit(@RequestBody Idoso idoso) throws Exception{
+        return idosoService.update(idoso);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -38,13 +37,13 @@ public class IdososController {
 
     @GetMapping
     @ApiOperation(value = "Retorna uma lista de Idosos")
-    public List<Idosos> findAll() throws Exception{
+    public List<Idoso> findAll() throws Exception{
         return idosoService.findAll();
     }
 
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Retorna um idoso pelo seu ID")
-    public Idosos findById(@PathVariable Long id) throws Exception{
+    public Idoso findById(@PathVariable Long id) throws Exception{
 
         return idosoService.findById(id);
 
@@ -52,7 +51,7 @@ public class IdososController {
 
     @GetMapping(path = "/filter")
     @ApiOperation(value = "Obter um idoso atravez do seu Nome")
-    public List<Idosos> findByFillters(@RequestParam("nome")String nome) throws Exception{
+    public List<Idoso> findByFillters(@RequestParam("nome")String nome) throws Exception{
         return idosoService.findByFillters(nome);
     }
 }

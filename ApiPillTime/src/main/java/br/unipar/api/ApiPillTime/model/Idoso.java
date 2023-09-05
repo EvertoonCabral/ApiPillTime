@@ -24,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Idosos {
+public class Idoso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +63,10 @@ public class Idosos {
     private Cuidador cuidador;
 
     private String observacao;
+    
+    @OneToMany(mappedBy = "idoso")
+    private List<RemedioIdoso> remediosAssociados;
+
 
 
 
