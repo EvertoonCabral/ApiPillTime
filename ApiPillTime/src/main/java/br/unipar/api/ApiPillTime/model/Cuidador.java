@@ -1,14 +1,12 @@
 package br.unipar.api.ApiPillTime.model;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,7 +27,7 @@ public class Cuidador extends Pessoa {
    private List<Remedio> listaRemedio;
 
     @OneToMany
-    private List<Idosos> listaIdoso;
+    private List<Idoso> listaIdoso;
 
 
 

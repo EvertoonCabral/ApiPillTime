@@ -33,7 +33,8 @@ public class MarcaRemedio {
     @NotEmpty
     @NotNull
     @Size(min = 1, max = 255)
-    private String nome;
+    @ManyToOne
+    private MarcaRemedio nome;
 
     @CreationTimestamp
     @Column(updatable = false)

@@ -17,9 +17,14 @@ public class AplicationControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrorMessage handlerException(Exception ex){
-        return new ApiErrorMessage(ex.getMessage());
-
+        return new ApiErrorMessage("Um erro inesperado ocorreu: " + ex.getMessage());
     }
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ApiErrorMessage handleAccessDenied(AccessDeniedException ex) {
+        return new ApiErrorMessage("Acesso negado: " + ex.getMessage());
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
