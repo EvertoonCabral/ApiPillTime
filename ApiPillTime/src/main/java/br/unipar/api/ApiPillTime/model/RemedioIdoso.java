@@ -1,9 +1,18 @@
 package br.unipar.api.ApiPillTime.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "RemedioIdoso")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RemedioIdoso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,5 +24,6 @@ public class RemedioIdoso {
     @ManyToOne
     private Idoso idoso;
 
-    // campos adicionais específicos da relação, como dosagem, horários, etc.
+    private boolean stAtivo;
+
 }
