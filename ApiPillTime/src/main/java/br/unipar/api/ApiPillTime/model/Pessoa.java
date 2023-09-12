@@ -46,11 +46,12 @@ import java.util.Date;
 
     private String cpf;
 
-        @OneToOne
+        @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "telefonePessoa")
         private Telefone Telefone;
 
-        @ManyToOne
+
+        @ManyToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "endereçoPessoa")
         private Endereco endereco;
 

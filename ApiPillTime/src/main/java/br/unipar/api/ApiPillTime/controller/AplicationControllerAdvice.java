@@ -1,6 +1,7 @@
 package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
+import org.hibernate.TransientPropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,6 +24,13 @@ public class AplicationControllerAdvice {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ApiErrorMessage handleAccessDenied(AccessDeniedException ex) {
         return new ApiErrorMessage("Acesso negado: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(TransientPropertyValueException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrorMessage handleTransientPropertyValueException(TransientPropertyValueException ex) {
+
+        return new ApiErrorMessage("Erro ao salvar a entidade por conta de suas relações: " + ex.getMessage());
     }
 
 

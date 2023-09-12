@@ -32,7 +32,7 @@ public class TelefoneController {
         return telefoneService.edit(telefone);
 
     }
-    @DeleteMapping
+    @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Exclui um Telefone")
     public void delete(@PathVariable Long id) throws Exception{
 
