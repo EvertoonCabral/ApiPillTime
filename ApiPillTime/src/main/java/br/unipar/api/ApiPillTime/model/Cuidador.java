@@ -26,7 +26,7 @@ public class Cuidador extends Pessoa {
     @OneToMany
    private List<Remedio> listaRemedio;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cuidador")
     private List<Idoso> listaIdoso;
 
 

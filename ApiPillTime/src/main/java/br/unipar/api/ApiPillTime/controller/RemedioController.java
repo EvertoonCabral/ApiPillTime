@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(path = "/remedio")
 @Api(tags = "API Remedio", description = "Remedio")
 public class
-remedioController {
+RemedioController {
 
     @Autowired
     private  RemedioService remedioService;

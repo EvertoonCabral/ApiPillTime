@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/remedioidoso")
-@Api(tags = "API RemedioIdoso", description = "Remedio")
+@Api(tags = "API RemedioIdoso", description = "RemedioIdoso")
 public class RemedioIdosoController {
 
     @Autowired
