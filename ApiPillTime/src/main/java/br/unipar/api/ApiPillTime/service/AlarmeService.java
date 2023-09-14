@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Alarme;
 import br.unipar.api.ApiPillTime.model.Cuidador;
+import br.unipar.api.ApiPillTime.model.Idoso;
 import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,21 @@ public class AlarmeService {
 
     @Autowired
     AlarmeRepository alarmeRepository;
+
+    @Autowired
+    private IdosoService idosoService;
+
+    public Alarme saveAlarmeForIdoso(Long idosoId, Alarme alarme) throws Exception {
+        Idoso idoso = idosoService.findById(idosoId);
+
+        if (idoso == null) {
+            throw new Exception("Idoso não encontrado!");
+        }
+
+        alarme.setIdoso(idoso);
+        return alarmeRepository.save(alarme);
+    }
+
 
     public Alarme insert(Alarme alarme) throws Exception{
 
