@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.Pessoa;
+import br.unipar.api.ApiPillTime.model.PessoaInsertDTO;
 import br.unipar.api.ApiPillTime.service.PessoaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,10 +24,10 @@ public class PessoaController {
 
     @PostMapping
     @ApiOperation(value= "Adicionar um Pessoa")
-    public ResponseEntity<Object> insert(@RequestBody Pessoa pessoa)  {
+    public ResponseEntity<Object> insert(@RequestBody PessoaInsertDTO pessoaInsertDTO)  {
 
         try{
-              Pessoa p1 = pessoaService.insert(pessoa);
+              Pessoa p1 = pessoaService.insert(pessoaInsertDTO);
               return ResponseEntity.status(HttpStatus.CREATED).body(p1);
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new ApiErrorMessage(ex.getMessage()));

@@ -22,14 +22,11 @@ public class Cuidador extends Pessoa {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     @OneToMany
-   private List<Remedio> listaRemedio;
+    private List<Remedio> listaRemedio;
 
     @OneToMany(mappedBy = "cuidador")
     private List<Idoso> listaIdoso;
-
-
 
 
 }

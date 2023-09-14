@@ -11,17 +11,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDateTime;
 
-    @Entity
-    @ApiModel(description = "Modelo de Pessoa")
-    @Table(name = "Pessoa")
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    @EqualsAndHashCode(of = "id")
-    public class Pessoa {
+@Entity
+@ApiModel(description = "Modelo de Pessoa")
+@Table(name = "Pessoa")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+public class Pessoa {
 
 
     @Id
@@ -36,27 +37,25 @@ import java.util.Date;
     @Size(min = 1, max = 255)
     private String nome;
 
-
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataNascimento;
 
     @CreationTimestamp
     @Column(updatable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataCadastro;
 
     private String cpf;
 
-        @OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "telefonePessoa")
-        private Telefone Telefone;
+    private TipoPessoaEnum tipoPessoaEnum;
 
+    private String Telefone;
 
-        @ManyToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "endereçoPessoa")
-        private Endereco endereco;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereçoPessoa")
+    private Endereco endereco;
 
     private boolean stAtivo;
-
 
 
 }

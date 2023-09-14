@@ -16,7 +16,6 @@ public class CuidadorService {
 
     public Cuidador insert(Cuidador cuidador) throws Exception{
 
-        //criar metodo de validação conforme as regras de negocio
 
         cuidadorRepository.saveAndFlush(cuidador);
         return cuidador;
