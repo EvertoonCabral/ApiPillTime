@@ -39,6 +39,10 @@ public class Remedio {
     @Size(min = 1, max = 255)
     private String nome;
 
+    @ManyToOne
+    @JoinColumn(name = "cuidador_id")
+    private Cuidador cuidador;
+
 
     private String marcaRemedio;
 

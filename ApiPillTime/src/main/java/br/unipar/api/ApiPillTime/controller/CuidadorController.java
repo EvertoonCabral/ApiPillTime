@@ -5,6 +5,7 @@ import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.Pessoa;
 import br.unipar.api.ApiPillTime.model.Remedio;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
+import br.unipar.api.ApiPillTime.service.RemedioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,8 @@ import java.util.List;
 public class CuidadorController {
     @Autowired
     CuidadorService cuidadorService;
+    @Autowired
+    RemedioService remedioService;
 
     @PostMapping
     @ApiOperation(value = "Adiciona um cuidador")
@@ -52,7 +56,7 @@ public class CuidadorController {
 @ApiOperation(value = "Retorna um cuidador pelo seu ID")
     public Cuidador findById(@PathVariable Long id)throws Exception{
 
-        return cuidadorService.findByid(id);
+        return cuidadorService.findById(id);
 
     }
 
@@ -64,18 +68,48 @@ public class CuidadorController {
 
     }
 
-    @PostMapping(path = "/{cuidadorId}/adicionar-remedio")
-    @ApiOperation(value = "Adicionar um remédio à lista de remédios de um cuidador")
-    public ResponseEntity<Object> addRemedioToCuidador(
-            @PathVariable Long cuidadorId, @RequestBody Remedio remedio) {
-        try {
-            Cuidador cuidador = cuidadorService.findByid(cuidadorId);
-            cuidador.getListaRemedio().add(remedio);
-            Cuidador cuidadorAtualizado = cuidadorService.edit(cuidador);
-            return ResponseEntity.ok(cuidadorAtualizado);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+        @PostMapping(path = "/{cuidadorId}/adicionar-remedio")
+        @ApiOperation(value = "Adicionar um remédio à lista de remédios de um cuidador")
+        public ResponseEntity<Object> addRemedioToCuidador(
+                @PathVariable Long cuidadorId, @RequestBody Remedio remedio) throws Exception {
+
+            // Obtenha o cuidador pelo ID fornecido
+            Cuidador cuidador = cuidadorService.findById(cuidadorId);
+
+            // Se o cuidador não for encontrado, retorne um erro
+            if (cuidador == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
+            }
+
+            try {
+                cuidador.getListaRemedio().add(remedio);
+                Cuidador cuidadorAtualizado = cuidadorService.edit(cuidador);
+                return ResponseEntity.ok(cuidadorAtualizado);
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+            }
         }
+
+        // ... outros endpoints ...
+
+
+
+    @GetMapping("/{cuidadorId}/remedios")
+    @ApiOperation(value = "Listar todos os remédios de um cuidador específico")
+    public ResponseEntity<Object> listRemediosByCuidador(@PathVariable Long cuidadorId) throws Exception {
+
+        // Obtenha o cuidador pelo ID fornecido
+        Cuidador cuidador = cuidadorService.findById(cuidadorId);
+
+        // Se o cuidador não for encontrado, retorne um erro
+        if (cuidador == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
+        }
+
+        // Retorna a lista de remédios do cuidador
+        return ResponseEntity.ok(cuidador.getListaRemedio());
     }
 
 

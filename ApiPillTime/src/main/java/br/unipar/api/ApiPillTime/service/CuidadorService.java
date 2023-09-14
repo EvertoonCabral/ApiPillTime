@@ -31,14 +31,14 @@ public class CuidadorService {
 
     }
     public void remove(Long id) throws Exception{
-        Cuidador cuidador = findByid(id);
+        Cuidador cuidador = findById(id);
         cuidador.setStAtivo(false);
         cuidadorRepository.saveAndFlush(cuidador);
     }
 public List<Cuidador> findAll(){
         return cuidadorRepository.findAll();
 }
-public Cuidador findByid(Long id) throws Exception{
+public Cuidador findById(Long id) throws Exception{
 
     Optional<Cuidador> retorno = cuidadorRepository.findById(id);
 
