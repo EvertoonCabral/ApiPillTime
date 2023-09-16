@@ -12,7 +12,7 @@ import lombok.Setter;
 public class RegisterDTO {
 
     private String login;
-    private String password;
+    private String senha;
     private UserRole role;
 
     public String getLogin() {
@@ -23,12 +23,12 @@ public class RegisterDTO {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public UserRole getRole() {
