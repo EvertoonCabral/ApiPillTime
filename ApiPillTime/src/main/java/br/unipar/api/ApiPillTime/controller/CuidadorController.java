@@ -1,12 +1,10 @@
 package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
-import br.unipar.api.ApiPillTime.model.Alarme;
-import br.unipar.api.ApiPillTime.model.Cuidador;
-import br.unipar.api.ApiPillTime.model.Pessoa;
-import br.unipar.api.ApiPillTime.model.Remedio;
+import br.unipar.api.ApiPillTime.model.*;
 import br.unipar.api.ApiPillTime.service.AlarmeService;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
+import br.unipar.api.ApiPillTime.service.IdosoService;
 import br.unipar.api.ApiPillTime.service.RemedioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,8 +28,7 @@ public class CuidadorController {
     @Autowired
     RemedioService remedioService;
     @Autowired
-    private AlarmeService alarmeService;
-
+    IdosoService idosoService;
     @PostMapping
     @ApiOperation(value = "Adiciona um cuidador")
     public ResponseEntity<?> insert(@RequestBody Cuidador cuidador) {
@@ -105,30 +102,24 @@ public class CuidadorController {
     }
 
 
-    @PostMapping(path = "/{cuidadorId}/adicionar-remedio")
-        @ApiOperation(value = "Adicionar um remédio à lista de remédios de um cuidador")
-        public ResponseEntity<Object> addRemedioToCuidador(
-                @PathVariable Long cuidadorId, @RequestBody Remedio remedio) throws Exception {
+    @PostMapping("/{cuidadorId}/adicionar-remedio")
+    @ApiOperation(value = "Adicionar um remédio à lista de remédios de um cuidador")
+    public ResponseEntity<Object> addRemedioToCuidador(@PathVariable Long cuidadorId, @RequestBody Remedio remedio) throws Exception {
+        Cuidador cuidador = cuidadorService.findById(cuidadorId);
 
-            // Obtenha o cuidador pelo ID fornecido
-            Cuidador cuidador = cuidadorService.findById(cuidadorId);
-
-            // Se o cuidador não for encontrado, retorne um erro
-            if (cuidador == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
-            }
-
-            try {
-                cuidador.getListaRemedio().add(remedio);
-                Cuidador cuidadorAtualizado = cuidadorService.edit(cuidador);
-                return ResponseEntity.ok(cuidadorAtualizado);
-            } catch (Exception e) {
-                return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
-            }
+        if (cuidador == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
         }
 
-        // ... outros endpoints ...
+        try {
+            cuidador.getListaRemedio().add(remedio);
+            Cuidador cuidadorAtualizado = cuidadorService.edit(cuidador);
+            return ResponseEntity.ok(cuidadorAtualizado);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+        }
+    }
 
 
 
@@ -136,10 +127,8 @@ public class CuidadorController {
     @ApiOperation(value = "Listar todos os remédios de um cuidador específico")
     public ResponseEntity<Object> listRemediosByCuidador(@PathVariable Long cuidadorId) throws Exception {
 
-        // Obtenha o cuidador pelo ID fornecido
         Cuidador cuidador = cuidadorService.findById(cuidadorId);
 
-        // Se o cuidador não for encontrado, retorne um erro
         if (cuidador == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
@@ -149,21 +138,42 @@ public class CuidadorController {
         return ResponseEntity.ok(cuidador.getListaRemedio());
     }
 
-    @PostMapping("/{cuidadorId}/idoso/{idosoId}/adicionar-alarme")
-    public ResponseEntity<?> addAlarmeToIdoso(@PathVariable Long cuidadorId, @PathVariable Long idosoId, @RequestBody Alarme alarme) {
+    @PostMapping("/{cuidadorId}/adicionar-idoso")
+    @ApiOperation(value = "Adicionar um idoso à lista de idosos de um cuidador")
+    public ResponseEntity<Object> addIdosoToCuidador(@PathVariable Long cuidadorId, @RequestBody Idoso idoso) throws Exception {
+        Cuidador cuidador = cuidadorService.findById(cuidadorId);
+
+        if (cuidador == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
+        }
+
         try {
-            // Verificar se o cuidador é realmente responsável por esse idoso
-            Cuidador cuidador = cuidadorService.findById(cuidadorId);
-            boolean isCuidadorOfIdoso = cuidador.getListaIdoso().stream().anyMatch(idoso -> idoso.getId().equals(idosoId));
-
-            if (!isCuidadorOfIdoso) {
-                return ResponseEntity.badRequest().body("O cuidador não é responsável por este idoso.");
-            }
-
-            Alarme novoAlarme = alarmeService.saveAlarmeForIdoso(idosoId, alarme);
-            return ResponseEntity.ok(novoAlarme);
+            cuidador.getListaIdoso().add(idoso);
+            Cuidador cuidadorAtualizado = cuidadorService.edit(cuidador);
+            return ResponseEntity.ok(cuidadorAtualizado);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erro ao adicionar alarme: " + e.getMessage());
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+        }
+    }
+
+    @PostMapping("/{cuidadorId}/idoso/{idosoId}/adicionar-alarme")
+    @ApiOperation(value = "Adicionar um alarme à lista de alarmes de um idoso")
+    public ResponseEntity<Object> addAlarmeToIdoso(@PathVariable Long cuidadorId, @PathVariable Long idosoId, @RequestBody Alarme alarme) throws Exception {
+        Cuidador cuidador = cuidadorService.findById(cuidadorId);
+        Idoso idoso = idosoService.findById(idosoId);
+
+        if (cuidador == null || idoso == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiErrorMessage("Cuidador ou Idoso não encontrado."));
+        }
+
+        try {
+            idoso.getAlarmesIdoso().add(alarme);
+            Idoso idosoAtualizado = idosoService.update(idoso);
+            return ResponseEntity.ok(idosoAtualizado);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
         }
     }
 
