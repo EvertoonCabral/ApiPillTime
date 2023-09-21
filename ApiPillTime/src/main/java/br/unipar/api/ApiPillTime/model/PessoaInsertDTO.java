@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PessoaInsertDTO {
 
+    private Long id;
 
     private String nome;
 
