@@ -1,6 +1,7 @@
 package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Endereco;
+import br.unipar.api.ApiPillTime.model.dto.EnderecoDTO;
 import br.unipar.api.ApiPillTime.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,9 @@ public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    public Endereco insert(Endereco endereco) throws Exception{
+    public Endereco insert(EnderecoDTO enderecoDto) throws Exception{
 
+        Endereco endereco = convertToEntity(enderecoDto);
        return enderecoRepository.saveAndFlush(endereco);
 
     }
@@ -48,6 +50,17 @@ public class EnderecoService {
         else
             throw new Exception("O Id "+id+" do endereço não foi Identificado");
 
+    }
+
+    public Endereco convertToEntity(EnderecoDTO dto) {
+        Endereco endereco = new Endereco();
+        endereco.setEstado(dto.getEstado());
+        endereco.setCidade(dto.getCidade());
+        endereco.setBairro(dto.getBairro());
+        endereco.setRua(dto.getRua());
+        endereco.setNumeroResidencia(dto.getNumeroResidencia());
+        endereco.setComplemento(dto.getComplemento());
+        return endereco;
     }
 
 

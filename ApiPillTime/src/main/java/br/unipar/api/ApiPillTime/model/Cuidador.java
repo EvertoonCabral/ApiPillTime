@@ -38,8 +38,7 @@ public class Cuidador {
     private List<Idoso> listaIdoso= new ArrayList<>();
 
 
-
-    @ApiModelProperty(notes = "Nome da Pessoa", required = true)
+    @ApiModelProperty(notes = "Nome do Cuidador", required = true)
     @NotBlank
     @NotEmpty
     @NotNull
@@ -59,8 +58,6 @@ public class Cuidador {
     private Date dataCadastro;
 
     private String cpf;
-
-    private TipoPessoaEnum tipoPessoaEnum;
 
     private String Telefone;
 

@@ -1,6 +1,8 @@
-package br.unipar.api.ApiPillTime.model;
+package br.unipar.api.ApiPillTime.model.dto;
 
 
+import br.unipar.api.ApiPillTime.model.Endereco;
+import br.unipar.api.ApiPillTime.model.TipoPessoaEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,8 +25,6 @@ public class PessoaInsertDTO {
     private Date dataNascimento;
 
     private String cpf;
-
-    private TipoPessoaEnum tipoPessoaEnum;
 
     private String Telefone;
 

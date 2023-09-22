@@ -1,6 +1,7 @@
 package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Idoso;
+import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.IdosoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,23 +13,33 @@ import java.util.Optional;
 public class IdosoService {
     @Autowired
     IdosoRepository idosoRepository;
+    @Autowired
+    EnderecoService enderecoService;
 
 
+    public Idoso insert(IdosoDTO idosoDto) throws Exception{
 
-
-    public Idoso insert(Idoso idoso) throws Exception{
-
-        //validar
+        Idoso idoso = convertToEntity(idosoDto);
         idosoRepository.saveAndFlush(idoso);
         return idoso;
 
     }
-    public Idoso update(Idoso idoso) throws Exception{
+    public Idoso updateIdosoDto(IdosoDTO idosoDTO) throws Exception{
         //validar
-         idosoRepository.saveAndFlush(idoso);
+
+        Idoso idoso = convertToEntity(idosoDTO);
+        idosoRepository.saveAndFlush(idoso);
 
         return idoso;
     }
+    public Idoso update(Idoso idoso) throws Exception{
+        //validar
+
+        idosoRepository.saveAndFlush(idoso);
+
+        return idoso;
+    }
+
     public void remove(Long id) throws Exception{
 
         Idoso idoso = findById(id);
@@ -56,5 +67,17 @@ public List<Idoso> findByFillters(String nome){
 }
 
 
+public Idoso convertToEntity(IdosoDTO dto) {
 
+    Idoso idoso = new Idoso();
+    idoso.setNome(dto.getNome());
+    idoso.setCpf(dto.getCpf());
+    idoso.setDataNascimento(dto.getDataNascimento());
+    idoso.setEndereco(enderecoService.convertToEntity( dto.getEndereco()));
+    idoso.setTelefone(dto.getTelefone());
+    idoso.setObservacao(dto.getObservacao());
+
+    return idoso;
+
+}
 }

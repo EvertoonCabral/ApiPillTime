@@ -2,7 +2,7 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.Pessoa;
-import br.unipar.api.ApiPillTime.model.PessoaInsertDTO;
+import br.unipar.api.ApiPillTime.model.dto.PessoaInsertDTO;
 import br.unipar.api.ApiPillTime.service.PessoaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

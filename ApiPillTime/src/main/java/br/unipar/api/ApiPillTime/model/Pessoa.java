@@ -47,7 +47,6 @@ public class Pessoa {
 
     private String cpf;
 
-    private TipoPessoaEnum tipoPessoaEnum;
 
     private String Telefone;
 
