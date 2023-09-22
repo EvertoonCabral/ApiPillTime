@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.Remedio;
+import br.unipar.api.ApiPillTime.model.dto.RemedioDTO;
 import br.unipar.api.ApiPillTime.service.RemedioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,9 +26,9 @@ RemedioController {
 
     @PostMapping
     @ApiOperation(value = "Adicionar um Remedio")
-    public ResponseEntity<Object> insert(@RequestBody Remedio remedio) {
+    public ResponseEntity<Object> insert(@RequestBody RemedioDTO remedioDTO) {
         try {
-            Remedio novoRemedio = remedioService.insert(remedio);
+            Remedio novoRemedio = remedioService.insert(remedioDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(novoRemedio);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));

@@ -1,6 +1,7 @@
 package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Remedio;
+import br.unipar.api.ApiPillTime.model.dto.RemedioDTO;
 import br.unipar.api.ApiPillTime.repository.RemedioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,9 @@ public class RemedioService {
     @Autowired
     private RemedioRepository remedioRepository;
 
-    public Remedio insert(Remedio remedio) throws Exception{
+    public Remedio insert(RemedioDTO remedioDTO) throws Exception{
 
-        //validar
+        Remedio remedio = convertToEntity(remedioDTO);
         remedioRepository.saveAndFlush(remedio);
 
     return remedio;
@@ -63,5 +64,17 @@ public class RemedioService {
 
     }
 
+
+    public Remedio convertToEntity(RemedioDTO dto){
+        Remedio remedio = new Remedio();
+        remedio.setNome(dto.getNome());
+        remedio.setMarcaRemedio(dto.getMarcaRemedio());
+        remedio.setDosagem(dto.getDosagem());
+        remedio.setFormaFarmaceutico(dto.getFormaFarmaceutico());
+        remedio.setDataValidade(dto.getDataValidade());
+        remedio.setObservacoes(dto.getObservacoes());
+
+        return remedio;
+    }
 
 }

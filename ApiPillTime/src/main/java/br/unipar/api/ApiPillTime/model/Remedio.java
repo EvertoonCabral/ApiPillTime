@@ -61,7 +61,7 @@ public class Remedio {
 
     private String observacoes;
 
-    private boolean stAtivo;
+    private boolean stAtivo = true;
 
 
 
