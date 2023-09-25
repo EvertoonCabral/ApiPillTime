@@ -62,6 +62,17 @@ public class EnderecoService {
         endereco.setComplemento(dto.getComplemento());
         return endereco;
     }
+    public EnderecoDTO convertToDto(Endereco endereco) {
+        EnderecoDTO dto = new EnderecoDTO();
+        dto.setEstado(endereco.getEstado());
+        dto.setCidade(endereco.getCidade());
+        dto.setBairro(endereco.getBairro());
+        dto.setRua(endereco.getRua());
+        dto.setNumeroResidencia(endereco.getNumeroResidencia());
+        dto.setComplemento(endereco.getComplemento());
+        return dto;
+    }
+
 
 
 

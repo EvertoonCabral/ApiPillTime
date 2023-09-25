@@ -3,12 +3,15 @@ package br.unipar.api.ApiPillTime.service;
 import br.unipar.api.ApiPillTime.model.Alarme;
 import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.Idoso;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDTO;
+import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AlarmeService {
@@ -18,6 +21,8 @@ public class AlarmeService {
 
     @Autowired
     private IdosoService idosoService;
+    @Autowired
+    private RemedioService remedioService;
 
     public Alarme saveAlarmeForIdoso(Long idosoId, Alarme alarme) throws Exception {
         Idoso idoso = idosoService.findById(idosoId);
@@ -31,10 +36,11 @@ public class AlarmeService {
     }
 
 
-    public Alarme insert(Alarme alarme) throws Exception{
+    public Alarme insert(AlarmeDTO alarmeDto) throws Exception{
 
         //criar metodo de validação conforme as regras de negocio
 
+        Alarme alarme = convertToEntity(alarmeDto);
         alarmeRepository.saveAndFlush(alarme);
         return alarme;
 
@@ -64,6 +70,32 @@ public class AlarmeService {
         else
             throw new Exception("Alarme com Id "+id+" Não Identificado");
     }
+
+
+    public AlarmeDTO convertToDTO(Alarme alarme) {
+        AlarmeDTO dto = new AlarmeDTO();
+        dto.setTitulo(alarme.getTitulo());
+        dto.setDescricao(alarme.getDescricao());
+        dto.setIdoso(idosoService.convertIdosoToDto((alarme.getIdoso()))); // Supondo que você tenha um método equivalente para IdosoDTO
+        dto.setRemediosIdosos(alarme.getRemediosIdosos()
+                .stream()
+                .map(remedioService::convertToDTO) // Aqui você chama o método correto
+                .collect(Collectors.toList()));        dto.setAlarme(alarme.getAlarme());
+        return dto;
+    }
+
+    public Alarme convertToEntity(AlarmeDTO dto) {
+        Alarme alarme = new Alarme();
+        alarme.setTitulo(dto.getTitulo());
+        alarme.setDescricao(dto.getDescricao());
+        alarme.setIdoso(idosoService.convertToEntity(dto.getIdoso())); // Supondo que você tenha um método equivalente para Idoso
+        alarme.setRemediosIdosos(dto.getRemediosIdosos()
+                .stream()
+                .map(remedioService::convertToEntity) // E aqui também
+                .collect(Collectors.toList()));        alarme.setAlarme(dto.getAlarme());
+        return alarme;
+    }
+
 
 
 }

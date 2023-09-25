@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model;
 
+import br.unipar.api.ApiPillTime.model.dto.RemedioDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

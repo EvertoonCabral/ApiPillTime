@@ -65,7 +65,18 @@ public class RemedioService {
     }
 
 
-    public Remedio convertToEntity(RemedioDTO dto){
+    public RemedioDTO convertToDTO(Remedio remedio) {
+        RemedioDTO dto = new RemedioDTO();
+        dto.setNome(remedio.getNome());
+        dto.setMarcaRemedio(remedio.getMarcaRemedio());
+        dto.setDosagem(remedio.getDosagem());
+        dto.setFormaFarmaceutico(remedio.getFormaFarmaceutico());
+        dto.setDataValidade(remedio.getDataValidade());
+        dto.setObservacoes(remedio.getObservacoes());
+        return dto;
+    }
+
+    public Remedio convertToEntity(RemedioDTO dto) {
         Remedio remedio = new Remedio();
         remedio.setNome(dto.getNome());
         remedio.setMarcaRemedio(dto.getMarcaRemedio());
@@ -73,8 +84,8 @@ public class RemedioService {
         remedio.setFormaFarmaceutico(dto.getFormaFarmaceutico());
         remedio.setDataValidade(dto.getDataValidade());
         remedio.setObservacoes(dto.getObservacoes());
-
         return remedio;
     }
+
 
 }

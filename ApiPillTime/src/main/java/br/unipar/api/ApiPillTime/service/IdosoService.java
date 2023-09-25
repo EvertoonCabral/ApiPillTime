@@ -80,4 +80,15 @@ public Idoso convertToEntity(IdosoDTO dto) {
     return idoso;
 
 }
+    public IdosoDTO convertIdosoToDto(Idoso idoso) {
+        IdosoDTO dto = new IdosoDTO();
+        dto.setNome(idoso.getNome());
+        dto.setCpf(idoso.getCpf());
+        dto.setDataNascimento(idoso.getDataNascimento());
+        dto.setTelefone(idoso.getTelefone());
+        dto.setObservacao(idoso.getObservacao());
+        dto.setEndereco(enderecoService.convertToDto(idoso.getEndereco())); // Supondo que você tenha um método equivalente no EnderecoService.
+        return dto;
+    }
+
 }
