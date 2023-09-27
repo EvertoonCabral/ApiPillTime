@@ -25,7 +25,8 @@ public class EnderecoController {
     public ResponseEntity<?> insert(@RequestBody EnderecoDTO enderecoDto) {
         try {
             Endereco endereco = enderecoService.insert(enderecoDto);
-            return new ResponseEntity<>(endereco, HttpStatus.CREATED);
+            EnderecoDTO enderecoDTO = enderecoService.convertToDto(endereco);
+            return new ResponseEntity<>(enderecoDTO, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

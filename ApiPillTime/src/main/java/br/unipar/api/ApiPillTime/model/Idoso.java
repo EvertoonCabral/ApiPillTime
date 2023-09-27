@@ -11,10 +11,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +35,11 @@ public class Idoso{
     @NotNull
     @Size(min = 1, max = 255)
     private String nome;
+
+    private String senha;
+    
+    @Email
+    private String email;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataNascimento;

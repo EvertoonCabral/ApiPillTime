@@ -21,10 +21,12 @@ public class IdososController {
 
     @PostMapping
     @ApiOperation(value = "Insere um novo usuário do tipo idoso")
-    public ResponseEntity<Idoso> insert(@RequestBody IdosoDTO idosoDto) {
+    public ResponseEntity<Object> insert(@RequestBody IdosoDTO idosoDto) {
         try {
             Idoso idoso = idosoService.insert(idosoDto);
-            return new ResponseEntity<>(idoso, HttpStatus.CREATED);
+            IdosoDTO idosoDTO = idosoService.convertIdosoToDto(idoso);
+
+            return new ResponseEntity<>(idosoDTO, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

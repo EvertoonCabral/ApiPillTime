@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.Pessoa;
+import br.unipar.api.ApiPillTime.model.dto.CuidadorDTO;
 import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,9 @@ public class CuidadorService {
     @Autowired
     CuidadorRepository cuidadorRepository;
 
-    public Cuidador insert(Cuidador cuidador) throws Exception{
+    public Cuidador insert(CuidadorDTO cuidadorDto) throws Exception{
 
-
+        Cuidador cuidador = convertCuidadorToEntity(cuidadorDto);
         cuidadorRepository.saveAndFlush(cuidador);
         return cuidador;
 
@@ -51,4 +52,35 @@ public Cuidador findById(Long id) throws Exception{
         return cuidadorRepository.findByNomeContainingAllIgnoringCase(nome);
 
     }
+
+    public CuidadorDTO convertCuidadorToDto(Cuidador cuidador){
+
+        CuidadorDTO dto = new CuidadorDTO();
+        dto.setNome(cuidador.getNome());
+        dto.setEmail(cuidador.getEmail());
+        dto.setSenha(cuidador.getSenha());
+        dto.setCpf(cuidador.getCpf());
+        dto.setTelefone(cuidador.getTelefone());
+        dto.setDataNascimento(cuidador.getDataNascimento());
+        dto.setEndereco(cuidador.getEndereco());
+
+        return dto;
+
+    }
+
+    public Cuidador convertCuidadorToEntity(CuidadorDTO dto){
+
+        Cuidador cuidador = new Cuidador();
+        cuidador.setNome(dto.getNome());
+        cuidador.setEmail(dto.getEmail());
+        cuidador.setSenha(dto.getSenha());
+        cuidador.setCpf(dto.getCpf());
+        cuidador.setTelefone(dto.getTelefone());
+        cuidador.setEndereco(dto.getEndereco());
+        cuidador.setDataNascimento(dto.getDataNascimento());
+
+        return cuidador;
+    }
+
+
 }

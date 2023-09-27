@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.*;
+import br.unipar.api.ApiPillTime.model.dto.CuidadorDTO;
 import br.unipar.api.ApiPillTime.service.AlarmeService;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
 import br.unipar.api.ApiPillTime.service.IdosoService;
@@ -31,9 +32,9 @@ public class CuidadorController {
     IdosoService idosoService;
     @PostMapping
     @ApiOperation(value = "Adiciona um cuidador")
-    public ResponseEntity<?> insert(@RequestBody Cuidador cuidador) {
+    public ResponseEntity<?> insert(@RequestBody CuidadorDTO cuidadorDto) {
         try {
-            Cuidador savedCuidador = cuidadorService.insert(cuidador);
+            Cuidador savedCuidador = cuidadorService.insert(cuidadorDto);
             return ResponseEntity.ok(savedCuidador);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

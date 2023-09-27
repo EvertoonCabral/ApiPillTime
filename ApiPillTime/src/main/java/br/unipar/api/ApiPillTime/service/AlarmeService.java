@@ -76,11 +76,13 @@ public class AlarmeService {
         AlarmeDTO dto = new AlarmeDTO();
         dto.setTitulo(alarme.getTitulo());
         dto.setDescricao(alarme.getDescricao());
-        dto.setIdoso(idosoService.convertIdosoToDto((alarme.getIdoso()))); // Supondo que você tenha um método equivalente para IdosoDTO
+        dto.setIdoso(idosoService.convertIdosoToDto((alarme.getIdoso())));
         dto.setRemediosIdosos(alarme.getRemediosIdosos()
                 .stream()
                 .map(remedioService::convertToDTO) // Aqui você chama o método correto
-                .collect(Collectors.toList()));        dto.setAlarme(alarme.getAlarme());
+                .collect(Collectors.toList()));
+        dto.setAlarme(alarme.getAlarme());
+
         return dto;
     }
 
@@ -88,11 +90,12 @@ public class AlarmeService {
         Alarme alarme = new Alarme();
         alarme.setTitulo(dto.getTitulo());
         alarme.setDescricao(dto.getDescricao());
-        alarme.setIdoso(idosoService.convertToEntity(dto.getIdoso())); // Supondo que você tenha um método equivalente para Idoso
+        alarme.setIdoso(idosoService.convertToEntity(dto.getIdoso()));
         alarme.setRemediosIdosos(dto.getRemediosIdosos()
                 .stream()
-                .map(remedioService::convertToEntity) // E aqui também
-                .collect(Collectors.toList()));        alarme.setAlarme(dto.getAlarme());
+                .map(remedioService::convertToEntity)
+                .collect(Collectors.toList()));
+        alarme.setAlarme(dto.getAlarme());
         return alarme;
     }
 
