@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RemedioService {
@@ -64,6 +65,13 @@ public class RemedioService {
 
     }
 
+
+    public List<RemedioDTO> findRemediosByCuidadorId(Long cuidadorID) throws Exception{
+
+        List<Remedio> remedios = remedioRepository.findByCuidadorId(cuidadorID);
+        return remedios.stream().map(this::convertToDTO).collect(Collectors.toList());
+
+    }
 
     public RemedioDTO convertToDTO(Remedio remedio) {
         RemedioDTO dto = new RemedioDTO();

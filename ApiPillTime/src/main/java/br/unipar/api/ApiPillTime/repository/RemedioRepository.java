@@ -12,5 +12,6 @@ public interface RemedioRepository extends JpaRepository<Remedio, Long> {
 
     @Query
     public List<Remedio> findByNomeContainingAllIgnoringCase(String nome);
-
+    @Query
+    List<Remedio> findByCuidadorId(Long cuidadorId);
 }
