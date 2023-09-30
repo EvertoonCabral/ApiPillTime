@@ -47,7 +47,7 @@ public Cuidador findById(Long id) throws Exception{
     Optional<Cuidador> retorno = cuidadorRepository.findById(id);
 
     if (retorno.isPresent())
-        return retorno.get();
+        return (retorno.get());
      else
         throw new Exception("Cuidador com Id "+id+" Não Identificado");
 }
@@ -66,7 +66,7 @@ public Cuidador findById(Long id) throws Exception{
         dto.setCpf(cuidador.getCpf());
         dto.setTelefone(cuidador.getTelefone());
         dto.setDataNascimento(cuidador.getDataNascimento());
-        dto.setEndereco(cuidador.getEndereco());
+        dto.setEndereco(enderecoService.convertToDto(cuidador.getEndereco()));
 
         return dto;
 
@@ -80,7 +80,7 @@ public Cuidador findById(Long id) throws Exception{
         cuidador.setSenha(dto.getSenha());
         cuidador.setCpf(dto.getCpf());
         cuidador.setTelefone(dto.getTelefone());
-        cuidador.setEndereco(dto.getEndereco());
+        cuidador.setEndereco(enderecoService.convertToEntity(dto.getEndereco()));
         cuidador.setDataNascimento(dto.getDataNascimento());
 
         return cuidador;

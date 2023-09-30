@@ -59,6 +59,9 @@ public class AlarmeService {
         alarmeRepository.saveAndFlush(alarme);
     }
     public List<Alarme> findAll(){
+
+
+
         return alarmeRepository.findAll();
     }
     public Alarme findByid(Long id) throws Exception{

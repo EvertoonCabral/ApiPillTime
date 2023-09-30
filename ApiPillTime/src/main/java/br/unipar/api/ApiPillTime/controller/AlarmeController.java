@@ -38,9 +38,9 @@ public class AlarmeController {
 
     @PutMapping
     @ApiOperation(value = "Editar um Alarme")
-    public ResponseEntity<Object> edit(@RequestBody Alarme alarme) {
+    public ResponseEntity<Object> edit(@RequestBody AlarmeDTO alarmeDTO) {
         try {
-            Alarme alarmeEditado = alarmeService.edit(alarme);
+            Alarme alarmeEditado = alarmeService.edit(alarmeService.convertToEntity(alarmeDTO));
             return ResponseEntity.ok(alarmeEditado);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
@@ -60,9 +60,9 @@ public class AlarmeController {
 
     @GetMapping
     @ApiOperation("Retorna uma lista de todos os Alarmes")
-    public ResponseEntity<List<Alarme>> findAll() {
-        List<Alarme> alarmes = alarmeService.findAll();
-        return ResponseEntity.ok(alarmes);
+    public ResponseEntity<List<?>> findAll() {
+        List<AlarmeDTO> alarmes = alarmeService.findAll();
+        return ResponseEntity.ok((alarmes));
     }
 
     @GetMapping(path = "/{id}")

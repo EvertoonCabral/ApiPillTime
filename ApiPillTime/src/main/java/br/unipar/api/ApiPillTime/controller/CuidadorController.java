@@ -2,8 +2,11 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.*;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDTO;
 import br.unipar.api.ApiPillTime.model.dto.CuidadorDTO;
+import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.model.dto.RemedioDTO;
+import br.unipar.api.ApiPillTime.service.AlarmeService;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
 import br.unipar.api.ApiPillTime.service.IdosoService;
 import br.unipar.api.ApiPillTime.service.RemedioService;
@@ -28,6 +31,9 @@ public class CuidadorController {
     RemedioService remedioService;
     @Autowired
     IdosoService idosoService;
+    @Autowired
+    AlarmeService alarmeService;
+
     @PostMapping
     @ApiOperation(value = "Adiciona um cuidador")
     public ResponseEntity<?> insert(@RequestBody CuidadorDTO cuidadorDto) {
@@ -44,7 +50,10 @@ public class CuidadorController {
     @ApiOperation(value = "Edita um cuidador")
     public ResponseEntity<?> edit(@RequestBody Cuidador cuidador) {
         try {
-            return ResponseEntity.ok(cuidadorService.edit(cuidador));
+            cuidadorService.edit(cuidador);
+
+            return ResponseEntity.ok(cuidadorService.convertCuidadorToDto(cuidador));
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ApiErrorMessage(e.getMessage()));
@@ -80,7 +89,7 @@ public class CuidadorController {
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
             Cuidador cuidador = cuidadorService.findById(id);
-            return ResponseEntity.ok(cuidador);
+            return ResponseEntity.ok(cuidadorService.convertCuidadorToDto(cuidador));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiErrorMessage(e.getMessage()));
@@ -92,7 +101,8 @@ public class CuidadorController {
     public ResponseEntity<?> findByFilters(@RequestParam("nome") String nome) {
         try {
             List<Cuidador> cuidadores = cuidadorService.findByFilters(nome);
-            return ResponseEntity.ok(cuidadores);
+            return ResponseEntity.ok((cuidadores));
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiErrorMessage(e.getMessage()));
@@ -102,12 +112,12 @@ public class CuidadorController {
 //validado
     @PostMapping("/{cuidadorId}/adicionar-remedio")
     @ApiOperation(value = "Adicionar um remédio à lista de remédios de um cuidador")
-    public ResponseEntity<Object> addRemedioToCuidador(@PathVariable Long cuidadorId, @RequestBody Remedio remedio) throws Exception {
+    public ResponseEntity<Object> addRemedioToCuidador(@PathVariable Long cuidadorId, @RequestBody RemedioDTO remedioDTO)   {
         try {
 
             Cuidador cuidador = cuidadorService.validateCuidadorExists(cuidadorId);
 
-            cuidador.getListaRemedio().add(remedio);
+            cuidador.getListaRemedio().add(remedioService.convertToEntity(remedioDTO));
 
             return ResponseEntity.ok( cuidadorService.edit(cuidador));
             
@@ -143,7 +153,7 @@ public class CuidadorController {
 
     @PostMapping("/{cuidadorId}/adicionar-idoso")
     @ApiOperation(value = "Adicionar um idoso à lista de idosos de um cuidador")
-    public ResponseEntity<Object> addIdosoToCuidador(@PathVariable Long cuidadorId, @RequestBody Idoso idoso) throws Exception {
+    public ResponseEntity<Object> addIdosoToCuidador(@PathVariable Long cuidadorId, @RequestBody IdosoDTO idosoDTO) throws Exception {
         Cuidador cuidador = cuidadorService.findById(cuidadorId);
 
         if (cuidador == null) {
@@ -152,7 +162,7 @@ public class CuidadorController {
         }
 
         try {
-            cuidador.getListaIdoso().add(idoso);
+            cuidador.getListaIdoso().add(idosoService.convertToEntity(idosoDTO));
             Cuidador cuidadorAtualizado = cuidadorService.edit(cuidador);
             return ResponseEntity.ok(cuidadorAtualizado);
         } catch (Exception e) {
@@ -162,7 +172,7 @@ public class CuidadorController {
 
     @PostMapping("/{cuidadorId}/idoso/{idosoId}/adicionar-alarme")
     @ApiOperation(value = "Adicionar um alarme à lista de alarmes de um idoso")
-    public ResponseEntity<Object> addAlarmeToIdoso(@PathVariable Long cuidadorId, @PathVariable Long idosoId, @RequestBody Alarme alarme) throws Exception {
+    public ResponseEntity<Object> addAlarmeToIdoso(@PathVariable Long cuidadorId, @PathVariable Long idosoId, @RequestBody AlarmeDTO alarmeDTO) throws Exception {
         Cuidador cuidador = cuidadorService.findById(cuidadorId);
         Idoso idoso = idosoService.findById(idosoId);
 
@@ -172,7 +182,7 @@ public class CuidadorController {
         }
 
         try {
-            idoso.getAlarmesIdoso().add(alarme);
+            idoso.getAlarmesIdoso().add(alarmeService.convertToEntity(alarmeDTO));
             Idoso idosoAtualizado = idosoService.update(idoso);
             return ResponseEntity.ok(idosoAtualizado);
         } catch (Exception e) {

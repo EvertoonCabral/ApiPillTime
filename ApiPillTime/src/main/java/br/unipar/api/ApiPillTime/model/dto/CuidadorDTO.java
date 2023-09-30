@@ -41,6 +41,6 @@ public class CuidadorDTO {
     private String Telefone;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereçoPessoa")
-    private Endereco endereco;
+    private EnderecoDTO endereco;
     private boolean stAtivo;
 }
