@@ -11,8 +11,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @ApiModel(description = "Modelo de Pessoa")
@@ -37,8 +37,12 @@ public class Pessoa {
     @Size(min = 1, max = 255)
     private String nome;
 
+    private String email;
+    private String login;
+    private String Senha;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date dataNascimento;
+    private java.util.Date dataNascimento;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -47,7 +51,6 @@ public class Pessoa {
 
     private String cpf;
 
-
     private String Telefone;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -55,6 +58,5 @@ public class Pessoa {
     private Endereco endereco;
 
     private boolean stAtivo;
-
 
 }

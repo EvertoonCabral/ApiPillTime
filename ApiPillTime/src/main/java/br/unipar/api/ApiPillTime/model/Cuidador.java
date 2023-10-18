@@ -27,7 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class    Cuidador {
+public class    Cuidador  extends Pessoa{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,35 +39,6 @@ public class    Cuidador {
     @OneToMany(mappedBy = "cuidador")
     private List<Idoso> listaIdoso= new ArrayList<>();
 
-
-    @ApiModelProperty(notes = "Nome do Cuidador", required = true)
-    @NotBlank
-    @NotEmpty
-    @NotNull
-    @Size(min = 1, max = 255)
-    private String nome;
-
-    private String email;
-    private String login;
-    private String Senha;
-
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date dataNascimento;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date dataCadastro;
-
-    private String cpf;
-
-    private String Telefone;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "endereçoPessoa")
-    private Endereco endereco;
-
-    private boolean stAtivo;
 
 
 }
