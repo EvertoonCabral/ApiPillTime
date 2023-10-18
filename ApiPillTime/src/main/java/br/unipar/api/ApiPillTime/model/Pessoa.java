@@ -7,10 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -37,9 +34,8 @@ public class Pessoa {
     @Size(min = 1, max = 255)
     private String nome;
 
+    @Email
     private String email;
-    private String login;
-    private String Senha;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private java.util.Date dataNascimento;

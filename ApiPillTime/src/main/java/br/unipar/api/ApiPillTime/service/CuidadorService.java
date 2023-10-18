@@ -62,7 +62,6 @@ public class CuidadorService {
         CuidadorDTO dto = new CuidadorDTO();
         dto.setNome(cuidador.getNome());
         dto.setEmail(cuidador.getEmail());
-        dto.setSenha(cuidador.getSenha());
         dto.setCpf(cuidador.getCpf());
         dto.setTelefone(cuidador.getTelefone());
         dto.setDataNascimento(cuidador.getDataNascimento());
@@ -77,7 +76,6 @@ public class CuidadorService {
         Cuidador cuidador = new Cuidador();
         cuidador.setNome(dto.getNome());
         cuidador.setEmail(dto.getEmail());
-        cuidador.setSenha(dto.getSenha());
         cuidador.setCpf(dto.getCpf());
         cuidador.setTelefone(dto.getTelefone());
         cuidador.setEndereco(enderecoService.convertToEntity(dto.getEndereco()));
