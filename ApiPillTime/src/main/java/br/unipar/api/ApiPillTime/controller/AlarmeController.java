@@ -61,7 +61,9 @@ public class AlarmeController {
     @GetMapping
     @ApiOperation("Retorna uma lista de todos os Alarmes")
     public ResponseEntity<List<?>> findAll() {
+
         List<AlarmeDTO> alarmes = alarmeService.findAll();
+
         return ResponseEntity.ok((alarmes));
     }
 

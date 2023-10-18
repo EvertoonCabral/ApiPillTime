@@ -20,7 +20,7 @@ public class RemedioService {
         Remedio remedio = convertToEntity(remedioDTO);
         remedioRepository.saveAndFlush(remedio);
 
-    return remedio;
+        return remedio;
 
     }
 
@@ -32,13 +32,13 @@ public class RemedioService {
         return remedio;
     }
 
-   public void remove(Long id) throws Exception{
+    public void remove(Long id) throws Exception{
 
         Remedio remedio = findById(id);
         remedio.setStAtivo(false);
         remedioRepository.saveAndFlush(remedio);
 
-   }
+    }
 
 
     public List<Remedio> findAll(){

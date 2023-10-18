@@ -53,33 +53,33 @@ public class IdosoService {
         return idosoRepository.findAll();
 
     }
-public Idoso findById(Long id) throws Exception{
-    Optional<Idoso> retorno = idosoRepository.findById(id);
+    public Idoso findById(Long id) throws Exception{
+        Optional<Idoso> retorno = idosoRepository.findById(id);
 
-    if(retorno.isPresent()){
-    return       retorno.get();
-    }else{
-        throw new Exception("Marca com Id "+id+" Não Identificada");
+        if(retorno.isPresent()){
+            return       retorno.get();
+        }else{
+            throw new Exception("Marca com Id "+id+" Não Identificada");
+        }
     }
-}
-public List<Idoso> findByFillters(String nome){
+    public List<Idoso> findByFillters(String nome){
         return idosoRepository.findByNomeContainingAllIgnoringCase(nome);
-}
+    }
 
 
-public Idoso convertToEntity(IdosoDTO dto) {
+    public Idoso convertToEntity(IdosoDTO dto) {
 
-    Idoso idoso = new Idoso();
-    idoso.setNome(dto.getNome());
-    idoso.setCpf(dto.getCpf());
-    idoso.setDataNascimento(dto.getDataNascimento());
-    idoso.setEndereco(enderecoService.convertToEntity( dto.getEndereco()));
-    idoso.setTelefone(dto.getTelefone());
-    idoso.setObservacao(dto.getObservacao());
+        Idoso idoso = new Idoso();
+        idoso.setNome(dto.getNome());
+        idoso.setCpf(dto.getCpf());
+        idoso.setDataNascimento(dto.getDataNascimento());
+        idoso.setEndereco(enderecoService.convertToEntity( dto.getEndereco()));
+        idoso.setTelefone(dto.getTelefone());
+        idoso.setObservacao(dto.getObservacao());
 
-    return idoso;
+        return idoso;
 
-}
+    }
     public IdosoDTO convertIdosoToDto(Idoso idoso) {
         IdosoDTO dto = new IdosoDTO();
         dto.setNome(idoso.getNome());

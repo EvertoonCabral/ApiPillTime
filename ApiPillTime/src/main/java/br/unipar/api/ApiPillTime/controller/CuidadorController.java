@@ -109,18 +109,18 @@ public class CuidadorController {
         }
     }
 
-//validado
+    //validado
     @PostMapping("/{cuidadorId}/adicionar-remedio")
-    @ApiOperation(value = "Adicionar um remédio à lista de remédios de um cuidador")
-    public ResponseEntity<Object> addRemedioToCuidador(@PathVariable Long cuidadorId, @RequestBody RemedioDTO remedioDTO)   {
+    public ResponseEntity<Object> addRemedioToCuidador(@PathVariable Long cuidadorId, @RequestBody RemedioDTO remedioDTO) {
         try {
-
             Cuidador cuidador = cuidadorService.validateCuidadorExists(cuidadorId);
 
-            cuidador.getListaRemedio().add(remedioService.convertToEntity(remedioDTO));
+            Remedio remedio = remedioService.convertToEntity(remedioDTO);
+            remedio = remedioService.insert(remedioService.convertToDTO(remedio));  // Salvando o remédio primeiro
 
-            return ResponseEntity.ok( cuidadorService.edit(cuidador));
-            
+            cuidador.getListaRemedio().add(remedio);
+            return ResponseEntity.ok(cuidadorService.edit(cuidador));
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorMessage(e.getMessage()));
         } catch (Exception e) {
@@ -129,25 +129,26 @@ public class CuidadorController {
     }
 
 
-//validado
-     @GetMapping("/{cuidadorId}/remedios")
+
+    //validado
+    @GetMapping("/{cuidadorId}/remedios")
     @ApiOperation(value = "Listar todos os remédios de um cuidador específico")
     public ResponseEntity<Object> listRemediosByCuidador(@PathVariable Long cuidadorId) {
 
-    try {
-        List<RemedioDTO> remedios = remedioService.findRemediosByCuidadorId(cuidadorId);
-        return ResponseEntity.ok(remedios);
+        try {
+            List<RemedioDTO> remedios = remedioService.findRemediosByCuidadorId(cuidadorId);
+            return ResponseEntity.ok(remedios);
 
-    } catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
 
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiErrorMessage(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiErrorMessage(e.getMessage()));
+        }
     }
-}
 
 
 
@@ -182,13 +183,19 @@ public class CuidadorController {
         }
 
         try {
-            idoso.getAlarmesIdoso().add(alarmeService.convertToEntity(alarmeDTO));
+            Alarme alarme = alarmeService.convertToEntity(alarmeDTO); // supondo que você tenha um método de conversão
+
+            alarme = alarmeService.insert(alarmeDTO);
+
+            idoso.getAlarmesIdoso().add(alarme);
             Idoso idosoAtualizado = idosoService.update(idoso);
+
             return ResponseEntity.ok(idosoAtualizado);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
         }
     }
+
 
 
 

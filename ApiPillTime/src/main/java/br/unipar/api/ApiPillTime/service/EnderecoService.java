@@ -18,7 +18,7 @@ public class EnderecoService {
     public Endereco insert(EnderecoDTO enderecoDto) throws Exception{
 
         Endereco endereco = convertToEntity(enderecoDto);
-       return enderecoRepository.saveAndFlush(endereco);
+        return enderecoRepository.saveAndFlush(endereco);
 
     }
 

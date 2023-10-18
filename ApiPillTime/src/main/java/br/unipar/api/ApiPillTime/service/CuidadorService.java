@@ -36,21 +36,21 @@ public class CuidadorService {
         cuidador.setStAtivo(false);
         cuidadorRepository.saveAndFlush(cuidador);
     }
-public List<CuidadorDTO> findAll(){
+    public List<CuidadorDTO> findAll(){
 
-    List<Cuidador> cuidadores = cuidadorRepository.findAll();
-    return cuidadores.stream().map(this::convertCuidadorToDto).collect(Collectors.toList());
-}
-public Cuidador findById(Long id) throws Exception{
+        List<Cuidador> cuidadores = cuidadorRepository.findAll();
+        return cuidadores.stream().map(this::convertCuidadorToDto).collect(Collectors.toList());
+    }
+    public Cuidador findById(Long id) throws Exception{
 
 
-    Optional<Cuidador> retorno = cuidadorRepository.findById(id);
+        Optional<Cuidador> retorno = cuidadorRepository.findById(id);
 
-    if (retorno.isPresent())
-        return (retorno.get());
-     else
-        throw new Exception("Cuidador com Id "+id+" Não Identificado");
-}
+        if (retorno.isPresent())
+            return (retorno.get());
+        else
+            throw new Exception("Cuidador com Id "+id+" Não Identificado");
+    }
     public List<Cuidador> findByFilters(String nome) {
 
         return cuidadorRepository.findByNomeContainingAllIgnoringCase(nome);

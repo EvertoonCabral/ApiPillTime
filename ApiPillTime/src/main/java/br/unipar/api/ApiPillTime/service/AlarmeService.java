@@ -9,6 +9,7 @@ import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,11 +59,17 @@ public class AlarmeService {
         alarme.setStatusAlarme(false);
         alarmeRepository.saveAndFlush(alarme);
     }
-    public List<Alarme> findAll(){
+    public List<AlarmeDTO> findAll(){
 
+        List<AlarmeDTO> listaConvertida = new ArrayList<>();
 
+        for (int i = 0; i<alarmeRepository.findAll().size();i++) {
 
-        return alarmeRepository.findAll();
+            listaConvertida.add(convertToDTO(alarmeRepository.findAll().get(i)));
+
+        }
+
+        return listaConvertida;
     }
     public Alarme findByid(Long id) throws Exception{
 
@@ -79,7 +86,6 @@ public class AlarmeService {
         AlarmeDTO dto = new AlarmeDTO();
         dto.setTitulo(alarme.getTitulo());
         dto.setDescricao(alarme.getDescricao());
-        dto.setIdoso(idosoService.convertIdosoToDto((alarme.getIdoso())));
         dto.setRemediosIdosos(alarme.getRemediosIdosos()
                 .stream()
                 .map(remedioService::convertToDTO) // Aqui você chama o método correto
@@ -88,12 +94,10 @@ public class AlarmeService {
 
         return dto;
     }
-
     public Alarme convertToEntity(AlarmeDTO dto) {
         Alarme alarme = new Alarme();
         alarme.setTitulo(dto.getTitulo());
         alarme.setDescricao(dto.getDescricao());
-        alarme.setIdoso(idosoService.convertToEntity(dto.getIdoso()));
         alarme.setRemediosIdosos(dto.getRemediosIdosos()
                 .stream()
                 .map(remedioService::convertToEntity)
