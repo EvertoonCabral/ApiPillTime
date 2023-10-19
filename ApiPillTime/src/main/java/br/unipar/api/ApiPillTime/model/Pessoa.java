@@ -55,4 +55,10 @@ public class Pessoa {
 
     private boolean stAtivo;
 
+    private String observacao;
+
+    private TipoUsuario tipo;
+
+
+
 }

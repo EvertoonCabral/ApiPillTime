@@ -87,7 +87,7 @@ public class IdosoService {
         dto.setDataNascimento(idoso.getDataNascimento());
         dto.setTelefone(idoso.getTelefone());
         dto.setObservacao(idoso.getObservacao());
-        dto.setEndereco(enderecoService.convertToDto(idoso.getEndereco())); // Supondo que você tenha um método equivalente no EnderecoService.
+        dto.setEndereco(enderecoService.convertToDto(idoso.getEndereco()));  
         return dto;
     }
 

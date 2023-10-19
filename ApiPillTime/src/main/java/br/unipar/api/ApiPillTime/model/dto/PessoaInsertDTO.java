@@ -2,7 +2,6 @@ package br.unipar.api.ApiPillTime.model.dto;
 
 
 import br.unipar.api.ApiPillTime.model.Endereco;
-import br.unipar.api.ApiPillTime.model.TipoPessoaEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

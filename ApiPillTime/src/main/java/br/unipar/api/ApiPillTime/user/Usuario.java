@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.user;
 
+import br.unipar.api.ApiPillTime.model.Pessoa;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,6 +28,8 @@ public class Usuario implements UserDetails {
     private String login;
     private String password;
     private UserRole role;
+    @OneToOne
+    private Pessoa pessoa;
 
 
     @Override

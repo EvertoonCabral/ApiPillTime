@@ -27,7 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class    Cuidador  extends Pessoa{
+public class Cuidador  extends Pessoa{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
