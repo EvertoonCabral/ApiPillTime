@@ -16,28 +16,9 @@ public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    public Pessoa insert(PessoaInsertDTO pessoaInsertDTO) throws Exception {
+    public Pessoa insert(Pessoa pessoa) throws Exception {
 
-        Pessoa pessoa = new Pessoa();
-
-        pessoa.setCpf(pessoaInsertDTO.getCpf());
-        pessoa.setNome(pessoaInsertDTO.getNome());
-        pessoa.setTelefone(pessoaInsertDTO.getTelefone());
-        pessoa.setDataNascimento(pessoa.getDataNascimento());
-        pessoa.setStAtivo(true);
-
-        Endereco endereco = new Endereco();
-        endereco.setBairro(pessoaInsertDTO.getEndereco().getBairro());
-        endereco.setStAtivo(true);
-        endereco.setCidade(pessoaInsertDTO.getEndereco().getCidade());
-        endereco.setEstado(pessoaInsertDTO.getEndereco().getEstado());
-        endereco.setRua(pessoaInsertDTO.getEndereco().getRua());
-        endereco.setComplemento(pessoaInsertDTO.getEndereco().getComplemento());
-        endereco.setNumeroResidencia(pessoaInsertDTO.getEndereco().getNumeroResidencia());
-        pessoa.setEndereco(endereco);
-        pessoaRepository.saveAndFlush(pessoa);
-
-        return pessoa;
+        return pessoaRepository.save(pessoa);
 
     }
 

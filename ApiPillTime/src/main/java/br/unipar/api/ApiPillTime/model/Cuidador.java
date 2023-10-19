@@ -21,12 +21,13 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "Cuidador")
 @ApiModel(description = "Modelo para a representação de um cuidador")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+
+@DiscriminatorValue("CUIDADOR")
 public class Cuidador  extends Pessoa{
 
     @Id

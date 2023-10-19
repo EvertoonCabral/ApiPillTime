@@ -28,7 +28,9 @@ public class Usuario implements UserDetails {
     private String login;
     private String password;
     private UserRole role;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
     private Pessoa pessoa;
 
 

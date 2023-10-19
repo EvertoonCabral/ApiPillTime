@@ -24,10 +24,10 @@ public class PessoaController {
 
     @PostMapping
     @ApiOperation(value= "Adicionar um Pessoa")
-    public ResponseEntity<Object> insert(@RequestBody PessoaInsertDTO pessoaInsertDTO)  {
+    public ResponseEntity<Object> insert(@RequestBody Pessoa pessoa)  {
 
         try{
-              Pessoa p1 = pessoaService.insert(pessoaInsertDTO);
+              Pessoa p1 = pessoaService.insert(pessoa);
               return ResponseEntity.status(HttpStatus.CREATED).body(p1);
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new ApiErrorMessage(ex.getMessage()));

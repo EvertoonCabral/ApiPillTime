@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model;
 
+import br.unipar.api.ApiPillTime.user.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,7 +20,10 @@ import java.util.Date;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-public class Pessoa {
+
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
+public abstract class Pessoa {
 
 
     @Id
@@ -57,8 +61,10 @@ public class Pessoa {
 
     private String observacao;
 
-    private TipoUsuario tipo;
+    private TipoUsuario tipoUsuario;
 
+    @OneToOne(mappedBy = "pessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Usuario usuario;
 
 
 }
