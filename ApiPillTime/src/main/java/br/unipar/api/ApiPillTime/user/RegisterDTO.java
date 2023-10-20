@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.user;
 
+import br.unipar.api.ApiPillTime.model.Pessoa;
 import br.unipar.api.ApiPillTime.model.TipoUsuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,8 +16,11 @@ public class RegisterDTO {
     private String login;
     private String senha;
     private UserRole role;
-    private Long pessoaId;
+    private Pessoa pessoa;
     private TipoUsuario tipoUsuario;
+
+
+
 
     public String getLogin() {
         return login;

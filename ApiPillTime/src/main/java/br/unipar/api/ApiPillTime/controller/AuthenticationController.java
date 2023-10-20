@@ -4,9 +4,12 @@ package br.unipar.api.ApiPillTime.controller;
 import javax.validation.Valid;
 
 
+import br.unipar.api.ApiPillTime.model.Pessoa;
+import br.unipar.api.ApiPillTime.repository.PessoaRepository;
 import br.unipar.api.ApiPillTime.user.*;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +34,13 @@ public class AuthenticationController {
   @Autowired
   private UserRepository userRepository;
 
+    @Autowired
+    private PessoaRepository pessoaRepository; // Supondo que você tenha um repositório para 'Pessoa'
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
     @PostMapping(path = "/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getSenha());
@@ -43,17 +53,35 @@ public class AuthenticationController {
 
     }
 
-    @PostMapping (path = "/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
+        if (userRepository.findByLogin(registerDTO.getLogin()) != null) {
+            // O usuário já existe
+            return new ResponseEntity<>("Erro: o nome de usuário já está em uso!", HttpStatus.BAD_REQUEST);
+        }
 
-        if(this.userRepository.findByLogin(data.getLogin()) != null) return ResponseEntity.badRequest().build();
+        // Supondo que o objeto 'pessoa' no 'registerDTO' já esteja preenchido corretamente
+        Pessoa pessoa = registerDTO.getPessoa();
+        if (pessoa == null) {
+            return new ResponseEntity<>("Erro: os dados da pessoa estão incompletos!", HttpStatus.BAD_REQUEST);
+        }
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.getSenha());
-        Usuario newUser = new Usuario(data.getLogin(), encryptedPassword, data.getRole());
+        // Você pode querer fazer mais algumas validações aqui para garantir que 'pessoa' é um 'Cuidador'
 
-        this.userRepository.save(newUser);
-        return ResponseEntity.ok().build();
+        // Criar novo usuário
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setLogin(registerDTO.getLogin());
+        novoUsuario.setPassword(bCryptPasswordEncoder.encode(registerDTO.getSenha()));
+        // Se o papel do usuário não está sendo definido em outra parte do código, você pode defini-lo aqui.
+        // novoUsuario.setRole(UserRole.CUIDADOR); // ou outro papel adequado
 
+        // Vincular a Pessoa ao novo usuário
+        novoUsuario.setPessoa(pessoa);
+
+            pessoaRepository.save(pessoa);
+        userRepository.save(novoUsuario);
+
+        return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
     }
 
 }
