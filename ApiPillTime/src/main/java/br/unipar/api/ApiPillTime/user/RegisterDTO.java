@@ -17,8 +17,6 @@ public class RegisterDTO {
     private String senha;
     private UserRole role;
     private Pessoa pessoa;
-    private TipoUsuario tipoUsuario;
-
 
 
 

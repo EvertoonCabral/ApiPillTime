@@ -2,6 +2,8 @@ package br.unipar.api.ApiPillTime.model;
 
 import br.unipar.api.ApiPillTime.user.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -23,6 +25,13 @@ import java.util.Date;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipoUsuario")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Cuidador.class, name = "C"),
+})
 public abstract class Pessoa {
 
 
@@ -44,11 +53,6 @@ public abstract class Pessoa {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private java.util.Date dataNascimento;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date dataCadastro;
-
     private String cpf;
 
     private String Telefone;
@@ -60,11 +64,8 @@ public abstract class Pessoa {
     private boolean stAtivo;
 
     private String observacao;
-
+    @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
-
-    @OneToOne(mappedBy = "pessoa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Usuario usuario;
 
 
 }

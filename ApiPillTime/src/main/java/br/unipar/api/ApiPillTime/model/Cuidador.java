@@ -30,9 +30,6 @@ import java.util.List;
 @DiscriminatorValue("CUIDADOR")
 public class Cuidador  extends Pessoa{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     @OneToMany
     private List<Remedio> listaRemedio = new ArrayList<>();
