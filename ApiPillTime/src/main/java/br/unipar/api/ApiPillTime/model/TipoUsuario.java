@@ -2,15 +2,15 @@ package br.unipar.api.ApiPillTime.model;
 
 public enum TipoUsuario {
 
-C(1), I(2);
+C("C"), I("I");
 
-private int descricao;
+private String descricao;
 
-    TipoUsuario(int descricao) {
+    TipoUsuario(String descricao) {
         this.descricao = descricao;
     }
 
-    public int getDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 }

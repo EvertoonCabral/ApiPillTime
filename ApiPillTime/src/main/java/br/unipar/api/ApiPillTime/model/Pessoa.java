@@ -64,6 +64,7 @@ public abstract class Pessoa {
     private boolean stAtivo;
 
     private String observacao;
+
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 

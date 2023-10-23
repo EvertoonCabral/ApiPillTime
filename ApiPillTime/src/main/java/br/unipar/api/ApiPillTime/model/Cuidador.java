@@ -27,7 +27,7 @@ import java.util.List;
 @Getter
 @Setter
 
-@DiscriminatorValue("CUIDADOR")
+@DiscriminatorValue("C")
 public class Cuidador  extends Pessoa{
 
 
