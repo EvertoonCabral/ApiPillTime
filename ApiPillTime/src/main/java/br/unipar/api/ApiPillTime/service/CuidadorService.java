@@ -5,6 +5,9 @@ import br.unipar.api.ApiPillTime.model.Pessoa;
 import br.unipar.api.ApiPillTime.model.dto.CuidadorDTO;
 import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -91,6 +94,24 @@ public class CuidadorService {
             throw new EntityNotFoundException("Cuidador não encontrado com o ID fornecido.");
         }
         return cuidador;
+    }
+
+    public Cuidador getCuidadorAtualmenteLogado() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        Cuidador cuidadorAtual = cuidadorRepository.findByEmail(username);
+        if (cuidadorAtual == null) {
+            throw new UsernameNotFoundException("Não foi encontrado usuário logado com o e-mail: " + username);
+        }
+
+        return cuidadorAtual;
     }
 
 

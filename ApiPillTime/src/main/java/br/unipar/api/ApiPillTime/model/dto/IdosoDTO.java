@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Getter
@@ -14,18 +17,23 @@ import java.util.Date;
 @NoArgsConstructor
     public class IdosoDTO {
 
-        private String nome;
-        @JsonFormat(pattern = "dd/MM/yyyy")
-        private Date dataNascimento;
+    @NotBlank(message = "O nome é obrigatório")
+    @Size(min = 2, max = 255, message = "O nome deve conter entre 1 e 255 caracteres")
+    private String nome;
 
-        private String cpf;
+    @Email(message = "O e-mail é inválido")
+    private String email;
 
-        private String telefone;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date dataNascimento;
 
-        private EnderecoDTO endereco;
+    private String cpf;
 
-        private String observacao;
+    private String telefone;
 
+    private EnderecoDTO endereco;
+
+    private String observacao;
     }
 
 
