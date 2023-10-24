@@ -28,6 +28,7 @@ public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(notes = "Id gerada automaticamente pelo sistema")
+    @JsonIgnore
     private Long id;
     @ApiModelProperty(notes = "Nome do Estado", required = true)
     @NotBlank
@@ -46,12 +47,14 @@ private String estado;
     private int numeroResidencia;
     private String complemento;
 
+
     @JsonIgnore
     @CreationTimestamp
     @Column(updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataCadastro;
 
+    @JsonIgnore
     private boolean stAtivo;
 
 

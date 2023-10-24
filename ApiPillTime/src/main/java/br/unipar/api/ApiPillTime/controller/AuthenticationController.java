@@ -60,7 +60,6 @@ public class AuthenticationController {
             Usuario novoUsuario = usuarioService.registerCuidador(registerDTO);
             return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
         } catch (Exception e) {
-            // Aqui, você pode querer melhorar o tratamento de erro, dependendo das suas necessidades.
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

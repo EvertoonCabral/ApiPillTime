@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.model;
 
 import br.unipar.api.ApiPillTime.user.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
@@ -38,6 +39,7 @@ public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(notes = "Id gerada automaticamente pelo sistema")
+    @JsonIgnore
     private Long id;
 
     @ApiModelProperty(notes = "Nome da Pessoa", required = true)
@@ -60,7 +62,7 @@ public abstract class Pessoa {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereçoPessoa")
     private Endereco endereco;
-
+    @JsonIgnore
     private boolean stAtivo;
 
     private String observacao;
