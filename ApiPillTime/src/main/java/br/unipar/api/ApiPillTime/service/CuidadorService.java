@@ -102,38 +102,6 @@ public class CuidadorService {
         return cuidador;
     }
 
-    public Cuidador getCuidadorAtualmenteLogado() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-
-        Cuidador cuidadorAtual = cuidadorRepository.findByEmail(username);
-        if (cuidadorAtual == null) {
-            throw new UsernameNotFoundException("Não foi encontrado usuário logado com o e-mail: " + username);
-        }
-
-        return cuidadorAtual;
-    }
-    public Idoso registerIdosoForCuidador(IdosoDTO idosoDTO) {
-
-        Cuidador cuidadorLogado = getCuidadorAtualmenteLogado();
-
-        Idoso novoIdoso = convertDTOToIdoso(idosoDTO);
-
-        novoIdoso.setCuidador(cuidadorLogado);
-
-        cuidadorLogado.getListaIdoso().add(novoIdoso);
-
-        return idosoRepository.save(novoIdoso);
-    }
-
-
-
 
 
     private Idoso convertDTOToIdoso(IdosoDTO idosoDTO) {

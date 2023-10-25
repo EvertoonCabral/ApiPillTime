@@ -95,21 +95,6 @@ public class IdososController {
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerIdoso(@RequestBody IdosoDTO idosoDTO) {
-        try {
-            Idoso idosoRegistrado = cuidadorService.registerIdosoForCuidador(idosoDTO);
-            return new ResponseEntity<>(idosoRegistrado, HttpStatus.CREATED);
-        } catch (Exception e) {
-
-            // Construir uma resposta de erro mais informativa
-            Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("message", "Erro ao registrar idoso");
-            responseBody.put("exception", e.getMessage());
-
-            return new ResponseEntity<>(responseBody, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
     }
 
 

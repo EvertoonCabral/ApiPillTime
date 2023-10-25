@@ -63,18 +63,21 @@ public class AuthenticationController {
         // Registro do Cuidador através do UsuarioService.
         try {
             Usuario novoUsuario = usuarioService.registerCuidador(registerDTO);
-            return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
+            return new ResponseEntity<>("Cuidador Registrado com Sucesso!", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     @PostMapping("/register/idoso")
     public ResponseEntity<?> registerIdoso(@RequestBody IdosoDTO idosoDTO) {
-
-        // A lógica para registrar um idoso será delegada ao AuthService
-        authService.registerIdoso(idosoDTO);
-        return ResponseEntity.ok("Idoso registrado com sucesso.");
+        try {
+            authService.registerIdoso(idosoDTO);
+            return ResponseEntity.ok("Idoso registrado com sucesso e adicionado à lista do cuidador!");
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao registrar idoso: " + e.getMessage());
+        }
     }
 }
 
