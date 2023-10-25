@@ -1,9 +1,12 @@
 package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Cuidador;
+import br.unipar.api.ApiPillTime.model.Idoso;
 import br.unipar.api.ApiPillTime.model.Pessoa;
 import br.unipar.api.ApiPillTime.model.dto.CuidadorDTO;
+import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
+import br.unipar.api.ApiPillTime.repository.IdosoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +24,9 @@ public class CuidadorService {
     CuidadorRepository cuidadorRepository;
     @Autowired
     EnderecoService enderecoService;
+    @Autowired
+    private IdosoRepository idosoRepository;
+
 
     public Cuidador insert(CuidadorDTO cuidadorDto) throws Exception{
 
@@ -113,6 +119,36 @@ public class CuidadorService {
 
         return cuidadorAtual;
     }
+    public Idoso registerIdosoForCuidador(IdosoDTO idosoDTO) {
+
+        Cuidador cuidadorLogado = getCuidadorAtualmenteLogado();
+
+        Idoso novoIdoso = convertDTOToIdoso(idosoDTO);
+
+        novoIdoso.setCuidador(cuidadorLogado);
+
+        cuidadorLogado.getListaIdoso().add(novoIdoso);
+
+        return idosoRepository.save(novoIdoso);
+    }
+
+
+
+
+
+    private Idoso convertDTOToIdoso(IdosoDTO idosoDTO) {
+        Idoso idoso = new Idoso();
+        idoso.setNome(idosoDTO.getNome());
+        idoso.setEmail(idosoDTO.getEmail());
+        idoso.setDataNascimento(idosoDTO.getDataNascimento());
+        idoso.setCpf(idosoDTO.getCpf());
+        idoso.setTelefone(idosoDTO.getTelefone());
+        idoso.setEndereco(enderecoService.convertToEntity(idosoDTO.getEndereco()));
+        idoso.setObservacao(idosoDTO.getObservacao());
+
+        return idoso;
+    }
+
 
 
 }

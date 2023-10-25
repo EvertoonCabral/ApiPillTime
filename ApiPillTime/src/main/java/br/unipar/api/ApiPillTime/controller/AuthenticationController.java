@@ -5,7 +5,9 @@ import javax.validation.Valid;
 
 
 import br.unipar.api.ApiPillTime.model.Pessoa;
+import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.PessoaRepository;
+import br.unipar.api.ApiPillTime.service.AuthService;
 import br.unipar.api.ApiPillTime.service.UsuarioService;
 import br.unipar.api.ApiPillTime.user.*;
 import io.swagger.annotations.Api;
@@ -34,6 +36,9 @@ public class AuthenticationController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    AuthService authService;
 
 
     @PostMapping(path = "/login")
@@ -64,5 +69,14 @@ public class AuthenticationController {
         }
     }
 
+    @PostMapping("/register/idoso")
+    public ResponseEntity<?> registerIdoso(@RequestBody IdosoDTO idosoDTO) {
 
+        // A lógica para registrar um idoso será delegada ao AuthService
+        authService.registerIdoso(idosoDTO);
+        return ResponseEntity.ok("Idoso registrado com sucesso.");
+    }
 }
+
+
+

@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model.dto;
 
+import br.unipar.api.ApiPillTime.user.UserRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +35,16 @@ import java.util.Date;
     private EnderecoDTO endereco;
 
     private String observacao;
+
+    @NotBlank(message = "Login é obrigatório")
+    private String login;
+
+    @NotBlank(message = "Senha é obrigatória")
+    private String senha;
+
+    private UserRole role;
+
+
     }
 
 

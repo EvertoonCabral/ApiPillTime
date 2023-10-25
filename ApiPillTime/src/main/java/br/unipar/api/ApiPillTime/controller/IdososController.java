@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.model.Idoso;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
+import br.unipar.api.ApiPillTime.service.CuidadorService;
 import br.unipar.api.ApiPillTime.service.IdosoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;  // Para usar o HashMap no tratamento de exceções.
+import java.util.Map;     // Para o tipo de retorno do corpo de resposta do erro.
 
 import java.util.List;
 
@@ -18,6 +21,11 @@ import java.util.List;
 public class IdososController {
     @Autowired
     IdosoService idosoService;
+
+    @Autowired
+    private CuidadorService cuidadorService;
+
+
 
     @PostMapping
     @ApiOperation(value = "Insere um novo usuário do tipo idoso")
@@ -86,4 +94,23 @@ public class IdososController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-}
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerIdoso(@RequestBody IdosoDTO idosoDTO) {
+        try {
+            Idoso idosoRegistrado = cuidadorService.registerIdosoForCuidador(idosoDTO);
+            return new ResponseEntity<>(idosoRegistrado, HttpStatus.CREATED);
+        } catch (Exception e) {
+
+            // Construir uma resposta de erro mais informativa
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("message", "Erro ao registrar idoso");
+            responseBody.put("exception", e.getMessage());
+
+            return new ResponseEntity<>(responseBody, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    }
+
+
+
