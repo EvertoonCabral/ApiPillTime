@@ -51,7 +51,6 @@ private String estado;
     @JsonIgnore
     @CreationTimestamp
     @Column(updatable = false)
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataCadastro;
 
     @JsonIgnore

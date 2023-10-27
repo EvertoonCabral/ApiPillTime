@@ -1,7 +1,9 @@
 package br.unipar.api.ApiPillTime.model.dto;
 
+import br.unipar.api.ApiPillTime.model.TipoUsuario;
 import br.unipar.api.ApiPillTime.user.UserRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +45,8 @@ import java.util.Date;
     private String senha;
 
     private UserRole role;
+    @JsonIgnore
+    private TipoUsuario tipoUsuario = TipoUsuario.I;
 
 
     }

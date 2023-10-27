@@ -67,7 +67,13 @@ public abstract class Pessoa {
 
     private String observacao;
 
+    @JsonIgnore
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Date dataCadastro;
+
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private TipoUsuario tipoUsuario;
 
 

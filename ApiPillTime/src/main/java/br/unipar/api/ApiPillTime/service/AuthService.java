@@ -32,8 +32,6 @@ public class AuthService {
     @Autowired
     private EnderecoService enderecoService;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private UserContextService userContextService;
 
     @Autowired

@@ -21,10 +21,10 @@ public class UsuarioService {
     private PasswordEncoder passwordEncoder;
 
     public UsuarioService(UserRepository usuarioRepository,
-                          CuidadorRepository cuidadorRepository, // Se aplicável
+                          CuidadorRepository cuidadorRepository,
                           PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
-        this.cuidadorRepository = cuidadorRepository; // Se aplicável
+        this.cuidadorRepository = cuidadorRepository;
         this.passwordEncoder = passwordEncoder;
     }
 

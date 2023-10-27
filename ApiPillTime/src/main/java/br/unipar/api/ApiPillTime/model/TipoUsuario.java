@@ -2,7 +2,7 @@ package br.unipar.api.ApiPillTime.model;
 
 public enum TipoUsuario {
 
-C("C"), I("I");
+C("CUIDADOR"), I("IDOSO");
 
 private String descricao;
 
