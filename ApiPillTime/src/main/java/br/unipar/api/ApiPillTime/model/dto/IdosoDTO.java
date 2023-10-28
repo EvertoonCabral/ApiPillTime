@@ -48,8 +48,10 @@ import java.util.Date;
     @JsonIgnore
     private TipoUsuario tipoUsuario = TipoUsuario.I;
 
+    private String cpfCuidador;
 
-    }
+
+}
 
 
 

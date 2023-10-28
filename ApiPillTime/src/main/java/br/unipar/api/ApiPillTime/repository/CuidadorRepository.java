@@ -16,7 +16,7 @@ public List<Cuidador> findByNomeContainingAllIgnoringCase(String nome);
 
     Optional<Cuidador> findById(Long id);
 
-    Cuidador findByEmail(String email);
+    Optional<Cuidador> findByCpf(String cpf);
 
 
 

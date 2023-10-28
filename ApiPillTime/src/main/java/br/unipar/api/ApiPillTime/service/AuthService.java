@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.*;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
+import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
 import br.unipar.api.ApiPillTime.repository.IdosoRepository;
 import br.unipar.api.ApiPillTime.user.UserContextService;
 import br.unipar.api.ApiPillTime.user.UserRepository;
@@ -21,22 +22,21 @@ import java.util.List;
 public class AuthService {
 
 
-    @Autowired
-    private IdosoRepository idosoRepository;
-    @Autowired
-    private UserRepository usuarioRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private EnderecoService enderecoService;
-    @Autowired
-    private UserContextService userContextService;
+    private final IdosoRepository idosoRepository;
+    private final UserRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EnderecoService enderecoService;
+    private final CuidadorRepository cuidadorRepository;
 
     @Autowired
-    public AuthService(IdosoRepository idosoRepository, UserRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(IdosoRepository idosoRepository, UserRepository usuarioRepository,
+                       PasswordEncoder passwordEncoder, EnderecoService enderecoService,
+                       CuidadorRepository cuidadorRepository) {
         this.idosoRepository = idosoRepository;
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.enderecoService = enderecoService;
+        this.cuidadorRepository = cuidadorRepository;
     }
 
     @Transactional
@@ -45,7 +45,6 @@ public class AuthService {
             throw new IllegalArgumentException("Idoso não pode ser nulo");
         }
 
-        // Criação de uma nova entidade Idoso a partir do DTO recebido.
         Idoso newIdoso = new Idoso();
         newIdoso.setNome(idosoDTO.getNome());
         newIdoso.setCpf(idosoDTO.getCpf());
@@ -56,7 +55,6 @@ public class AuthService {
         newIdoso.setStAtivo(true);
         newIdoso.setTipoUsuario(TipoUsuario.I);
 
-        // Conversão e definição do endereço.
         Endereco endereco = enderecoService.convertToEntity(idosoDTO.getEndereco());
         newIdoso.setEndereco(endereco);
 
@@ -67,17 +65,40 @@ public class AuthService {
         newUsuario.setRole(UserRole.USER);
         newUsuario.setPessoa(newIdoso);
 
-        // Tentativa de salvar as entidades no banco de dados.
+        Cuidador cuidador = cuidadorRepository.findByCpf(idosoDTO.getCpfCuidador())
+                .orElseThrow(() -> new IllegalArgumentException("Cuidador com CPF fornecido não encontrado"));
+
+        newIdoso.setCuidador(cuidador);
+
+        vincularIdosoACuidador(newIdoso, cuidador);
+
+
         try {
-            // Salvando a entidade Idoso
             idosoRepository.save(newIdoso);
-            // Salvando a entidade Usuario relacionada
             usuarioRepository.save(newUsuario);
         } catch (DataAccessException e) {
-            // Em caso de erro durante o acesso aos dados, uma exceção é lançada.
             throw new RuntimeException("Erro ao salvar informações do idoso e usuário", e);
         }
     }
+    @Transactional
+    public void vincularIdosoACuidador(Idoso idoso, Cuidador cuidador) {
+        if (idoso == null || cuidador == null) {
+            throw new IllegalArgumentException("Idoso e Cuidador não podem ser nulos");
+        }
+
+        idoso.setCuidador(cuidador);
+
+        if (cuidador.getListaIdoso() == null) {
+            cuidador.setListaIdoso(new ArrayList<>());
+        }
+        cuidador.getListaIdoso().add(idoso);
+
+
+        cuidadorRepository.save(cuidador);
+
+        idosoRepository.save(idoso);
+    }
+
 
 
     }

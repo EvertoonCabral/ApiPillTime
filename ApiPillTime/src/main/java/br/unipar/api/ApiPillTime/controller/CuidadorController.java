@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -108,6 +109,33 @@ public class CuidadorController {
                     .body(new ApiErrorMessage(e.getMessage()));
         }
     }
+
+
+    @GetMapping("/{cuidadorId}/idosos")
+    @ApiOperation(value = "Retorna todos os Idosos da Lista do Cuidador")
+    public ResponseEntity<?> getIdososByCuidador(@PathVariable Long cuidadorId) {
+        try {
+            Cuidador cuidador = cuidadorService.findById(cuidadorId);
+            if (cuidador == null) {
+                return new ResponseEntity<>(new ApiErrorMessage("Nenhum cuidador encontrado com o ID fornecido."), HttpStatus.NOT_FOUND);
+            }
+
+            List<IdosoDTO> idosoDTOList = new ArrayList<>();
+            for (Idoso idoso : cuidador.getListaIdoso()) {
+                idosoDTOList.add(idosoService.convertIdosoToDto(idoso));  // use seu método de conversão aqui
+            }
+
+            if (idosoDTOList.isEmpty()) {
+                return new ResponseEntity<>("O cuidador não possui idosos cadastrados em sua lista.", HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(idosoDTOList, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiErrorMessage("Ocorreu um erro inesperado ao recuperar a lista de idosos. Por favor, tente novamente mais tarde."), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     //validado
     @PostMapping("/{cuidadorId}/adicionar-remedio")

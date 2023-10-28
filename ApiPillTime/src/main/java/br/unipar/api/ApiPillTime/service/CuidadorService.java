@@ -25,7 +25,7 @@ public class CuidadorService {
     @Autowired
     EnderecoService enderecoService;
     @Autowired
-    private IdosoRepository idosoRepository;
+    private IdosoService idosoService;
 
 
     public Cuidador insert(CuidadorDTO cuidadorDto) throws Exception{
@@ -65,6 +65,22 @@ public class CuidadorService {
         return cuidadorRepository.findByNomeContainingAllIgnoringCase(nome);
 
     }
+
+    public List<IdosoDTO> findIdososByCuidadorId(Long cuidadorId) throws Exception {
+        Cuidador cuidador = this.findById(cuidadorId);
+        if (cuidador != null) {
+            // Se o cuidador foi encontrado, processamos os idosos associados
+            List<Idoso> idosos = cuidador.getListaIdoso();
+
+            // Convertendo a lista de entidades Idoso para DTOs
+            return idosos.stream()
+                    .map(idosoService::convertIdosoToDto) // supondo que o método convertToDto está definido em IdosoService
+                    .collect(Collectors.toList());
+        }
+        // Se não encontramos o cuidador, retornamos null ou você pode optar por lançar uma exceção, dependendo da sua lógica de negócios.
+        return null;
+    }
+
 
     public CuidadorDTO convertCuidadorToDto(Cuidador cuidador){
 
