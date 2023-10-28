@@ -1,15 +1,13 @@
 package br.unipar.api.ApiPillTime.service;
 
-import br.unipar.api.ApiPillTime.model.Cuidador;
-import br.unipar.api.ApiPillTime.model.Endereco;
-import br.unipar.api.ApiPillTime.model.Idoso;
-import br.unipar.api.ApiPillTime.model.TipoUsuario;
+import br.unipar.api.ApiPillTime.model.*;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.IdosoRepository;
 import br.unipar.api.ApiPillTime.user.UserContextService;
 import br.unipar.api.ApiPillTime.user.UserRepository;
 import br.unipar.api.ApiPillTime.user.UserRole;
 import br.unipar.api.ApiPillTime.user.Usuario;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,12 +41,11 @@ public class AuthService {
 
     @Transactional
     public void registerIdoso(IdosoDTO idosoDTO) {
-
-
         if (idosoDTO == null) {
-            throw new IllegalArgumentException("IdosoDTO não pode ser nulo");
+            throw new IllegalArgumentException("Idoso não pode ser nulo");
         }
 
+        // Criação de uma nova entidade Idoso a partir do DTO recebido.
         Idoso newIdoso = new Idoso();
         newIdoso.setNome(idosoDTO.getNome());
         newIdoso.setCpf(idosoDTO.getCpf());
@@ -59,49 +56,32 @@ public class AuthService {
         newIdoso.setStAtivo(true);
         newIdoso.setTipoUsuario(TipoUsuario.I);
 
+        // Conversão e definição do endereço.
         Endereco endereco = enderecoService.convertToEntity(idosoDTO.getEndereco());
         newIdoso.setEndereco(endereco);
 
-        // Obtenção do usuário atual (usuarioAtual) e validação de seu papel.
-        Usuario usuarioAtual = userContextService.getUsuarioAtual();
-        if (usuarioAtual == null || !usuarioAtual.getRole().equals(UserRole.ADMIN)) {
-            throw new SecurityException("Ação não permitida. Somente cuidadores podem registrar idosos.");
-        }
-
-        // Verificando se 'Pessoa' do usuário é um 'Cuidador'
-        if (!(usuarioAtual.getPessoa() instanceof Cuidador)) {
-            throw new SecurityException("O usuário atual não está associado a um cuidador.");
-        }
-
-        Cuidador cuidador = (Cuidador) usuarioAtual.getPessoa();
-
-        newIdoso.setCuidador(cuidador);
-        List<Idoso> idosos = cuidador.getListaIdoso();
-        if (idosos == null) {
-            idosos = new ArrayList<>();
-            cuidador.setListaIdoso(idosos); // Ajuste o nome do método se for diferente em sua classe.
-        }
-
-
+        // Criação de uma nova entidade Usuario para representar as credenciais do idoso.
         Usuario newUsuario = new Usuario();
         newUsuario.setLogin(idosoDTO.getLogin());
         newUsuario.setPassword(passwordEncoder.encode(idosoDTO.getSenha()));
         newUsuario.setRole(UserRole.USER);
         newUsuario.setPessoa(newIdoso);
 
-
-
-
+        // Tentativa de salvar as entidades no banco de dados.
         try {
+            // Salvando a entidade Idoso
             idosoRepository.save(newIdoso);
+            // Salvando a entidade Usuario relacionada
             usuarioRepository.save(newUsuario);
         } catch (DataAccessException e) {
-
+            // Em caso de erro durante o acesso aos dados, uma exceção é lançada.
             throw new RuntimeException("Erro ao salvar informações do idoso e usuário", e);
         }
+    }
+
 
     }
-}
+
 
     
 

@@ -79,6 +79,7 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao registrar idoso: " + e.getMessage());
         }
     }
+
 }
 
 

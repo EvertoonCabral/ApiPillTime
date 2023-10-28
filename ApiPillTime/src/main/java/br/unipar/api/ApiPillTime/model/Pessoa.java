@@ -73,7 +73,6 @@ public abstract class Pessoa {
     private Date dataCadastro;
 
     @Enumerated(EnumType.STRING)
-    @JsonIgnore
     private TipoUsuario tipoUsuario;
 
 

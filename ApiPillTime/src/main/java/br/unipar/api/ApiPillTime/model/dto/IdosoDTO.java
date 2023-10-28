@@ -43,7 +43,7 @@ import java.util.Date;
 
     @NotBlank(message = "Senha é obrigatória")
     private String senha;
-
+    @JsonIgnore
     private UserRole role;
     @JsonIgnore
     private TipoUsuario tipoUsuario = TipoUsuario.I;

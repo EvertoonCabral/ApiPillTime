@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 
-@DiscriminatorValue("I")
+@DiscriminatorValue("IDOSO")
 public class Idoso extends Pessoa{
 
     @Id

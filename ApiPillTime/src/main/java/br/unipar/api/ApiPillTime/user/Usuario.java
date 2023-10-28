@@ -32,6 +32,7 @@ public class Usuario implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
     private Pessoa pessoa;
+    private boolean cuidador = true;
 
 
     @Override
