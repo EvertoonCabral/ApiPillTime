@@ -147,7 +147,14 @@ public class CuidadorController {
             remedio = remedioService.insert(remedioService.convertToDTO(remedio));  // Salvando o remédio primeiro
 
             cuidador.getListaRemedio().add(remedio);
-            return ResponseEntity.ok(cuidadorService.edit(cuidador));
+            cuidadorService.edit(cuidador);  // Atualiza o cuidador com o novo remédio
+
+            // Preparando uma mensagem de resposta personalizada
+            String mensagemPersonalizada = String.format("Remédio '%s' foi adicionado com sucesso ao cuidador '%s'.",
+                    remedio.getNome(),
+                    cuidador.getNome());
+
+            return ResponseEntity.ok(mensagemPersonalizada);
 
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorMessage(e.getMessage()));
@@ -158,25 +165,36 @@ public class CuidadorController {
 
 
 
-    //validado
+
     @GetMapping("/{cuidadorId}/remedios")
     @ApiOperation(value = "Listar todos os remédios de um cuidador específico")
     public ResponseEntity<Object> listRemediosByCuidador(@PathVariable Long cuidadorId) {
-
         try {
-            List<RemedioDTO> remedios = remedioService.findRemediosByCuidadorId(cuidadorId);
-            return ResponseEntity.ok(remedios);
+            // Encontrando o cuidador
+            Cuidador cuidador = cuidadorService.findById(cuidadorId);
+            if (cuidador == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
+            }
 
-        } catch (EntityNotFoundException e) {
+            List<Remedio> remedios = new ArrayList<>(cuidador.getListaRemedio());
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
+            if (remedios.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorMessage("Nenhum remédio encontrado para o cuidador especificado."));
+            }
+
+            // Convertendo para DTO antes de enviar.
+            List<RemedioDTO> remediosDTO = new ArrayList<>();
+            for (Remedio remedio : remedios) {
+                remediosDTO.add(remedioService.convertToDTO(remedio));
+            }
+
+            return ResponseEntity.ok(remediosDTO);
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ApiErrorMessage(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiErrorMessage(e.getMessage()));
         }
     }
+
 
 
 

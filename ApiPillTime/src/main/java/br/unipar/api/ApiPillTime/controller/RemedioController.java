@@ -28,8 +28,14 @@ RemedioController {
     @ApiOperation(value = "Adicionar um Remedio")
     public ResponseEntity<Object> insert(@RequestBody RemedioDTO remedioDTO) {
         try {
+
+
             Remedio novoRemedio = remedioService.insert(remedioDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(novoRemedio);
+
+            String mensagemPersonalizada = "Remédio adicionado com sucesso com o ID: " + novoRemedio.getId();
+
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(mensagemPersonalizada);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
         }

@@ -55,6 +55,7 @@ public abstract class Pessoa {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private java.util.Date dataNascimento;
 
+    @Size(min = 11, max = 11)
     private String cpf;
 
     private String Telefone;
@@ -72,6 +73,7 @@ public abstract class Pessoa {
     @Column(updatable = false)
     private Date dataCadastro;
 
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
