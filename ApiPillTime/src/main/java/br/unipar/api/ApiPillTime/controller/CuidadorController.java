@@ -2,10 +2,7 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.exception.ApiErrorMessage;
 import br.unipar.api.ApiPillTime.model.*;
-import br.unipar.api.ApiPillTime.model.dto.AlarmeDTO;
-import br.unipar.api.ApiPillTime.model.dto.CuidadorDTO;
-import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
-import br.unipar.api.ApiPillTime.model.dto.RemedioDTO;
+import br.unipar.api.ApiPillTime.model.dto.*;
 import br.unipar.api.ApiPillTime.service.AlarmeService;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
 import br.unipar.api.ApiPillTime.service.IdosoService;
@@ -217,32 +214,36 @@ public class CuidadorController {
         }
     }
 
-    @PostMapping("/{cuidadorId}/idoso/{idosoId}/adicionar-alarme")
+
     @ApiOperation(value = "Adicionar um alarme à lista de alarmes de um idoso")
-    public ResponseEntity<Object> addAlarmeToIdoso(@PathVariable Long cuidadorId, @PathVariable Long idosoId, @RequestBody AlarmeDTO alarmeDTO) throws Exception {
-        Cuidador cuidador = cuidadorService.findById(cuidadorId);
-        Idoso idoso = idosoService.findById(idosoId);
-
-        if (cuidador == null || idoso == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiErrorMessage("Cuidador ou Idoso não encontrado."));
-        }
-
+    @PostMapping("/{cuidadorId}/idoso/{idosoId}/alarme")
+    public ResponseEntity<?> addAlarmeToIdoso(@PathVariable Long cuidadorId,
+                                              @PathVariable Long idosoId,
+                                              @RequestBody AlarmeDtoInsert alarmeDtoInsert) {
         try {
-            Alarme alarme = alarmeService.convertToEntity(alarmeDTO); // supondo que você tenha um método de conversão
+            Cuidador cuidador = cuidadorService.findById(cuidadorId);
+            if (cuidador == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiErrorMessage("Cuidador não encontrado."));
+            }
 
-            alarme = alarmeService.insert(alarmeDTO);
+            Idoso idoso = idosoService.findById(idosoId);
+            if (idoso == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiErrorMessage("Idoso não encontrado."));
+            }
 
-            idoso.getAlarmesIdoso().add(alarme);
-            Idoso idosoAtualizado = idosoService.update(idoso);
+            // Aqui, você chama o método no serviço, passando o DTO do alarme
+            Idoso updatedIdoso = idosoService.addAlarmeToIdoso(idosoId, alarmeDtoInsert);
 
-            return ResponseEntity.ok(idosoAtualizado);
+
+            // Retorna sucesso
+            return ResponseEntity.ok("Alarme adicionado com sucesso.");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiErrorMessage("Ocorreu um erro ao adicionar o alarme: " + e.getMessage()));
         }
     }
-
-
 
 
 }

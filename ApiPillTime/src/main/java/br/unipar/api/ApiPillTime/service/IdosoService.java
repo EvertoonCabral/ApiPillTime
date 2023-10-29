@@ -1,13 +1,19 @@
 package br.unipar.api.ApiPillTime.service;
 
+import br.unipar.api.ApiPillTime.model.Alarme;
 import br.unipar.api.ApiPillTime.model.Idoso;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDTO;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDtoInsert;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
+import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
 import br.unipar.api.ApiPillTime.repository.IdosoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IdosoService {
@@ -16,6 +22,15 @@ public class IdosoService {
     @Autowired
     EnderecoService enderecoService;
 
+    @Autowired
+    AlarmeRepository alarmeRepository;
+
+    private AlarmeService alarmeService;
+
+    @Autowired
+    public void setAlarmeService(AlarmeService alarmeService) {
+        this.alarmeService = alarmeService;
+    }
 
     public Idoso insert(IdosoDTO idosoDto) throws Exception{
 
@@ -64,6 +79,38 @@ public class IdosoService {
     }
     public List<Idoso> findByFillters(String nome){
         return idosoRepository.findByNomeContainingAllIgnoringCase(nome);
+    }
+
+
+    public Idoso addAlarmeToIdoso(Long idosoId, AlarmeDtoInsert alarmeDtoInsert) throws Exception {
+        Idoso idoso = idosoRepository.findById(idosoId)
+                .orElseThrow(() -> new Exception("Idoso não encontrado"));
+
+        Alarme alarme = new Alarme();
+        alarme.setTitulo(alarmeDtoInsert.getTitulo());
+        alarme.setDescricao(alarmeDtoInsert.getDescricao());
+        alarme.setAlarme(alarmeDtoInsert.getAlarme());
+
+        alarme.setIdoso(idoso);
+        idoso.getAlarmesIdoso().add(alarme);
+
+        // Salva o alarme e o idoso
+        alarmeRepository.save(alarme);
+        return idosoRepository.save(idoso);
+    }
+
+
+    public List<AlarmeDtoInsert> findAlarmesDtoByIdoso(Long idosoId) throws Exception {
+        Idoso idoso = idosoRepository.findById(idosoId)
+                .orElseThrow(() -> new Exception("Idoso não encontrado"));
+
+        return idoso.getAlarmesIdoso().stream().map(alarme -> {
+            AlarmeDtoInsert dto = new AlarmeDtoInsert();
+            dto.setTitulo(alarme.getTitulo());
+            dto.setDescricao(alarme.getDescricao());
+            dto.setAlarme(alarme.getAlarme());
+            return dto;
+        }).collect(Collectors.toList());
     }
 
 

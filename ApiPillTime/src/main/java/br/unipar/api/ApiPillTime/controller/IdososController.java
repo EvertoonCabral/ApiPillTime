@@ -1,6 +1,7 @@
 package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.model.Idoso;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDtoInsert;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
 import br.unipar.api.ApiPillTime.service.IdosoService;
@@ -92,6 +93,21 @@ public class IdososController {
             return new ResponseEntity<>(idosos, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/{id}/alarmes")
+    @ApiOperation(value = "Retorna uma lista de alarmes (como DTOs) do idoso específico")
+    public ResponseEntity<?> getAlarmesByIdoso(@PathVariable Long id) {
+        try {
+            List<AlarmeDtoInsert> alarmesDto = idosoService.findAlarmesDtoByIdoso(id);
+            return new ResponseEntity<>(alarmesDto, HttpStatus.OK);
+        } catch (Exception e) {
+            // Tratamento de erro
+            Map<String, String> error = new HashMap<>();
+            error.put("mensagem", e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
     }
 

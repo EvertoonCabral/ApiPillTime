@@ -4,9 +4,11 @@ import br.unipar.api.ApiPillTime.model.Alarme;
 import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.Idoso;
 import br.unipar.api.ApiPillTime.model.dto.AlarmeDTO;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDtoInsert;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,13 +19,17 @@ import java.util.stream.Collectors;
 @Service
 public class AlarmeService {
 
-    @Autowired
-    AlarmeRepository alarmeRepository;
+    private final AlarmeRepository alarmeRepository;
+    private final RemedioService remedioService;
+    private final IdosoService idosoService;
 
     @Autowired
-    private IdosoService idosoService;
-    @Autowired
-    private RemedioService remedioService;
+    public AlarmeService(AlarmeRepository alarmeRepository, RemedioService remedioService, @Lazy IdosoService idosoService) {
+        this.alarmeRepository = alarmeRepository;
+        this.remedioService = remedioService;
+        this.idosoService = idosoService;
+    }
+
 
     public Alarme saveAlarmeForIdoso(Long idosoId, Alarme alarme) throws Exception {
         Idoso idoso = idosoService.findById(idosoId);
@@ -106,6 +112,15 @@ public class AlarmeService {
         return alarme;
     }
 
+
+    public AlarmeDtoInsert convertToDtoInsert(Alarme alarme) {
+        AlarmeDtoInsert dto = new AlarmeDtoInsert();
+
+        dto.setTitulo(alarme.getTitulo());
+        dto.setDescricao(alarme.getDescricao());
+        dto.setAlarme(alarme.getAlarme());
+        return dto;
+    }
 
 
 }
