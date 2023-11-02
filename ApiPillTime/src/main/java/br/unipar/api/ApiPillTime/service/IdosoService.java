@@ -2,15 +2,13 @@ package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Alarme;
 import br.unipar.api.ApiPillTime.model.Idoso;
-import br.unipar.api.ApiPillTime.model.dto.AlarmeDTO;
-import br.unipar.api.ApiPillTime.model.dto.AlarmeDtoInsert;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDTOInsert;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
 import br.unipar.api.ApiPillTime.repository.IdosoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -82,7 +80,7 @@ public class IdosoService {
     }
 
 
-    public Idoso addAlarmeToIdoso(Long idosoId, AlarmeDtoInsert alarmeDtoInsert) throws Exception {
+    public Idoso addAlarmeToIdoso(Long idosoId, AlarmeDTOInsert alarmeDtoInsert) throws Exception {
         Idoso idoso = idosoRepository.findById(idosoId)
                 .orElseThrow(() -> new Exception("Idoso não encontrado"));
 
@@ -100,12 +98,12 @@ public class IdosoService {
     }
 
 
-    public List<AlarmeDtoInsert> findAlarmesDtoByIdoso(Long idosoId) throws Exception {
+    public List<AlarmeDTOInsert> findAlarmesDtoByIdoso(Long idosoId) throws Exception {
         Idoso idoso = idosoRepository.findById(idosoId)
                 .orElseThrow(() -> new Exception("Idoso não encontrado"));
 
         return idoso.getAlarmesIdoso().stream().map(alarme -> {
-            AlarmeDtoInsert dto = new AlarmeDtoInsert();
+            AlarmeDTOInsert dto = new AlarmeDTOInsert();
             dto.setTitulo(alarme.getTitulo());
             dto.setDescricao(alarme.getDescricao());
             dto.setAlarme(alarme.getAlarme());

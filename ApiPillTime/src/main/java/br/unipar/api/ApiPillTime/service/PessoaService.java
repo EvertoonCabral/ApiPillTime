@@ -1,8 +1,6 @@
 package br.unipar.api.ApiPillTime.service;
 
-import br.unipar.api.ApiPillTime.model.Endereco;
 import br.unipar.api.ApiPillTime.model.Pessoa;
-import br.unipar.api.ApiPillTime.model.dto.PessoaInsertDTO;
 import br.unipar.api.ApiPillTime.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

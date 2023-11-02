@@ -219,7 +219,7 @@ public class CuidadorController {
     @PostMapping("/{cuidadorId}/idoso/{idosoId}/alarme")
     public ResponseEntity<?> addAlarmeToIdoso(@PathVariable Long cuidadorId,
                                               @PathVariable Long idosoId,
-                                              @RequestBody AlarmeDtoInsert alarmeDtoInsert) {
+                                              @RequestBody AlarmeDTOInsert alarmeDtoInsert) {
         try {
             Cuidador cuidador = cuidadorService.findById(cuidadorId);
             if (cuidador == null) {

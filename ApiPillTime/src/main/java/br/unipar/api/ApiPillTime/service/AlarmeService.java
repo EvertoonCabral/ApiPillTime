@@ -1,11 +1,9 @@
 package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Alarme;
-import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.Idoso;
 import br.unipar.api.ApiPillTime.model.dto.AlarmeDTO;
-import br.unipar.api.ApiPillTime.model.dto.AlarmeDtoInsert;
-import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDTOInsert;
 import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -113,8 +111,8 @@ public class AlarmeService {
     }
 
 
-    public AlarmeDtoInsert convertToDtoInsert(Alarme alarme) {
-        AlarmeDtoInsert dto = new AlarmeDtoInsert();
+    public AlarmeDTOInsert convertToDtoInsert(Alarme alarme) {
+        AlarmeDTOInsert dto = new AlarmeDTOInsert();
 
         dto.setTitulo(alarme.getTitulo());
         dto.setDescricao(alarme.getDescricao());

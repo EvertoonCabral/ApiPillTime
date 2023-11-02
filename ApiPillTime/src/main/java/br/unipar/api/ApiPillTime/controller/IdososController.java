@@ -1,7 +1,7 @@
 package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.model.Idoso;
-import br.unipar.api.ApiPillTime.model.dto.AlarmeDtoInsert;
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDTOInsert;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
 import br.unipar.api.ApiPillTime.service.IdosoService;
@@ -101,7 +101,7 @@ public class IdososController {
     @ApiOperation(value = "Retorna uma lista de alarmes (como DTOs) do idoso específico")
     public ResponseEntity<?> getAlarmesByIdoso(@PathVariable Long id) {
         try {
-            List<AlarmeDtoInsert> alarmesDto = idosoService.findAlarmesDtoByIdoso(id);
+            List<AlarmeDTOInsert> alarmesDto = idosoService.findAlarmesDtoByIdoso(id);
             return new ResponseEntity<>(alarmesDto, HttpStatus.OK);
         } catch (Exception e) {
             // Tratamento de erro

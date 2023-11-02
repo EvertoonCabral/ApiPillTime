@@ -1,6 +1,5 @@
 package br.unipar.api.ApiPillTime.model.dto;
 
-import br.unipar.api.ApiPillTime.model.Remedio;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,14 +9,13 @@ import lombok.Setter;
 
 import javax.validation.constraints.Future;
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlarmeDtoInsert {
+public class AlarmeDTOInsert {
 
     private  String titulo;
     private String descricao;

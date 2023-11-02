@@ -8,19 +8,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PessoaInsertDTO {
+public class PessoaDTO {
 
 
     private String nome;
+    private String email;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date dataNascimento;
+    private java.util.Date dataNascimento;
 
     private String cpf;
 
@@ -28,6 +27,7 @@ public class PessoaInsertDTO {
 
     private Endereco endereco;
 
-    private boolean stAtivo;
+    private String observacao;
+
 
 }
