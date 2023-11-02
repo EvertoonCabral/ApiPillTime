@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.TipoUsuario;
+import br.unipar.api.ApiPillTime.model.dto.UsuarioDTO;
 import br.unipar.api.ApiPillTime.user.RegisterDTO;
 import br.unipar.api.ApiPillTime.user.UserRepository;
 import br.unipar.api.ApiPillTime.user.UserRole;
@@ -72,6 +73,18 @@ public class UsuarioService {
     }
     public Usuario findByLogin(String login) {
         return userRepository.findByLogin(login);
+    }
+
+
+    public UsuarioDTO convertToDto(Usuario usuario){
+
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(usuario.getId());
+        dto.setLogin(usuario.getLogin());
+        dto.setRole(usuario.getRole());
+
+        return dto;
+
     }
 
 
