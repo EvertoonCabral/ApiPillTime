@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UsuarioService {
     @Autowired
@@ -20,15 +23,29 @@ public class UsuarioService {
     private CuidadorRepository cuidadorRepository; // Se aplicável
     private PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UserRepository usuarioRepository,
+    @Autowired
+    private UserRepository userRepository;
+
+
+    public UsuarioService(UserRepository userRepository,
                           CuidadorRepository cuidadorRepository,
                           PasswordEncoder passwordEncoder) {
-        this.usuarioRepository = usuarioRepository;
+        this.userRepository = userRepository;
         this.cuidadorRepository = cuidadorRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
+    public Usuario save(Usuario usuario) {
+        return userRepository.save(usuario);
+    }
 
+
+    public List<Usuario> findAll() {
+        return userRepository.findAll();
+    }
+
+    
     @Transactional
     public Usuario registerCuidador(RegisterDTO registerDTO) {
 
@@ -51,10 +68,10 @@ public class UsuarioService {
         usuario.setRole(UserRole.ADMIN);
         usuario.setPessoa(cuidador);
 
-        return usuarioRepository.save(usuario);
+        return userRepository.save(usuario);
     }
     public Usuario findByLogin(String login) {
-        return usuarioRepository.findByLogin(login);
+        return userRepository.findByLogin(login);
     }
 
 
