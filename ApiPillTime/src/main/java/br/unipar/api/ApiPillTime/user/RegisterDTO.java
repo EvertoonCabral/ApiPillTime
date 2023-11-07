@@ -18,7 +18,7 @@ public class RegisterDTO {
     private UserRole role;
     private Pessoa pessoa;
 
-
+    
 
     public String getLogin() {
         return login;

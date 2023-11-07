@@ -53,7 +53,7 @@ public abstract class Pessoa {
     private String email;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private java.util.Date dataNascimento;
+    private Date dataNascimento;
 
     @Size(min = 11, max = 11)
     private String cpf;
@@ -65,8 +65,6 @@ public abstract class Pessoa {
     private Endereco endereco;
     @JsonIgnore
     private boolean stAtivo;
-
-    private String observacao;
 
     @JsonIgnore
     @CreationTimestamp

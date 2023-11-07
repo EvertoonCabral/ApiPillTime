@@ -60,7 +60,7 @@ public class AuthenticationController {
             return new ResponseEntity<>("Erro: o nome de usuário já está em uso!", HttpStatus.BAD_REQUEST);
         }
 
-        // Registro do Cuidador através do UsuarioService.
+
         try {
             Usuario novoUsuario = usuarioService.registerCuidador(registerDTO);
             return new ResponseEntity<>("Cuidador Registrado com Sucesso!", HttpStatus.CREATED);

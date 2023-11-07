@@ -37,6 +37,9 @@ public class Idoso extends Pessoa{
     @JoinColumn(name = "CuidadorId")
     private Cuidador cuidador;
 
+    private String observacao;
+
+
 
 }
 

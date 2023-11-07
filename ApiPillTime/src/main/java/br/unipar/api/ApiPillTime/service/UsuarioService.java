@@ -58,7 +58,6 @@ public class UsuarioService {
         cuidador.setTelefone(registerDTO.getPessoa().getTelefone());
         cuidador.setDataNascimento(registerDTO.getPessoa().getDataNascimento());
         cuidador.setEndereco(registerDTO.getPessoa().getEndereco());
-        cuidador.setObservacao(registerDTO.getPessoa().getObservacao());
         cuidador.setTipoUsuario(TipoUsuario.C);
         cuidador.setStAtivo(true);
         cuidadorRepository.save(cuidador);
