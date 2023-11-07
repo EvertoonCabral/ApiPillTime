@@ -53,21 +53,21 @@ public class AuthenticationController {
 
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
-        // Verifica se o login já existe.
-        if (usuarioService.findByLogin(registerDTO.getLogin()) != null) {
-            return new ResponseEntity<>("Erro: o nome de usuário já está em uso!", HttpStatus.BAD_REQUEST);
-        }
+        @PostMapping("/register")
+        public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
+            // Verifica se o login já existe.
+            if (usuarioService.findByLogin(registerDTO.getLogin()) != null) {
+                return new ResponseEntity<>("Erro: o nome de usuário já está em uso!", HttpStatus.BAD_REQUEST);
+            }
 
 
-        try {
-            Usuario novoUsuario = usuarioService.registerCuidador(registerDTO);
-            return new ResponseEntity<>("Cuidador Registrado com Sucesso!", HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            try {
+                Usuario novoUsuario = usuarioService.registerCuidador(registerDTO);
+                return new ResponseEntity<>("Cuidador Registrado com Sucesso!", HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-    }
     @PostMapping("/register/idoso")
     public ResponseEntity<?> registerIdoso(@RequestBody IdosoDTO idosoDTO) {
         try {
