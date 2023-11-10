@@ -45,37 +45,37 @@ public class AuthService {
             throw new IllegalArgumentException("Idoso não pode ser nulo");
         }
 
-        Idoso newIdoso = new Idoso();
-        newIdoso.setNome(idosoDTO.getNome());
-        newIdoso.setCpf(idosoDTO.getCpf());
-        newIdoso.setEmail(idosoDTO.getEmail());
-        newIdoso.setDataNascimento(idosoDTO.getDataNascimento());
-        newIdoso.setObservacao(idosoDTO.getObservacao());
-        newIdoso.setTelefone(idosoDTO.getTelefone());
-        newIdoso.setStAtivo(true);
-        newIdoso.setTipoUsuario(TipoUsuario.I);
+        Idoso idoso = new Idoso();
+        idoso.setNome(idosoDTO.getNome());
+        idoso.setCpf(idosoDTO.getCpf());
+        idoso.setEmail(idosoDTO.getEmail());
+        idoso.setDataNascimento(idosoDTO.getDataNascimento());
+        idoso.setObservacao(idosoDTO.getObservacao());
+        idoso.setTelefone(idosoDTO.getTelefone());
+        idoso.setStAtivo(true);
+        idoso.setTipoUsuario(TipoUsuario.I);
 
         Endereco endereco = enderecoService.convertToEntity(idosoDTO.getEndereco());
-        newIdoso.setEndereco(endereco);
+        idoso.setEndereco(endereco);
 
         // Criação de uma nova entidade Usuario para representar as credenciais do idoso.
-        Usuario newUsuario = new Usuario();
-        newUsuario.setLogin(idosoDTO.getLogin());
-        newUsuario.setPassword(passwordEncoder.encode(idosoDTO.getSenha()));
-        newUsuario.setRole(UserRole.USER);
-        newUsuario.setPessoa(newIdoso);
+        Usuario usuario = new Usuario();
+        usuario.setLogin(idosoDTO.getLogin());
+        usuario.setPassword(passwordEncoder.encode(idosoDTO.getSenha()));
+        usuario.setRole(UserRole.USER);
+        usuario.setPessoa(idoso);
 
         Cuidador cuidador = cuidadorRepository.findByCpf(idosoDTO.getCpfCuidador())
                 .orElseThrow(() -> new IllegalArgumentException("Cuidador com CPF fornecido não encontrado"));
 
-        newIdoso.setCuidador(cuidador);
+        idoso.setCuidador(cuidador);
 
-        vincularIdosoACuidador(newIdoso, cuidador);
+        vincularIdosoACuidador(idoso, cuidador);
 
 
         try {
-            idosoRepository.save(newIdoso);
-            usuarioRepository.save(newUsuario);
+            idosoRepository.save(idoso);
+            usuarioRepository.save(usuario);
         } catch (DataAccessException e) {
             throw new RuntimeException("Erro ao salvar informações do idoso e usuário", e);
         }
