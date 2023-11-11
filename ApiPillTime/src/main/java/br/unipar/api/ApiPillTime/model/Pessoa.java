@@ -33,6 +33,7 @@ import java.util.Date;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Cuidador.class, name = "C"),
 })
+
 public abstract class Pessoa {
 
 
@@ -73,6 +74,5 @@ public abstract class Pessoa {
 
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
-
 
 }

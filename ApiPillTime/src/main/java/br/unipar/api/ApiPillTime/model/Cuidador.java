@@ -28,5 +28,4 @@ public class Cuidador  extends Pessoa{
     private List<Idoso> listaIdoso= new ArrayList<>();
 
 
-
 }
