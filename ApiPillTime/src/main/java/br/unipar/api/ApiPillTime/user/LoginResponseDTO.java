@@ -1,24 +1,19 @@
 package br.unipar.api.ApiPillTime.user;
 
-public class LoginResponseDTO {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginResponseDTO {
 
     private String token;
 
-    public LoginResponseDTO() {
-    }
-
-    public LoginResponseDTO(String token) {
-        this.token = token;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
+    private Long id;
 }
 
 
