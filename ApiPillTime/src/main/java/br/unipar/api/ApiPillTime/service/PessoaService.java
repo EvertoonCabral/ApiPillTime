@@ -1,6 +1,7 @@
 package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Pessoa;
+import br.unipar.api.ApiPillTime.model.dto.PessoaDTOGet;
 import br.unipar.api.ApiPillTime.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,9 +54,37 @@ public class PessoaService {
 
     }
 
+
+    public PessoaDTOGet findByIdPessoaDTO(Long id) throws Exception {
+
+        Optional<Pessoa> retorno = pessoaRepository.findById(id);
+
+
+
+        if (retorno.isPresent())
+            return convertToDTO(retorno.get());
+        else
+            throw new Exception("Marca com Id " + id + " Não Identificada");
+
+    }
+
     public List<Pessoa> findByFilters(String nome) {
 
         return pessoaRepository.findByNomeContainingAllIgnoringCase(nome);
+
+    }
+
+    public PessoaDTOGet convertToDTO(Pessoa pessoa){
+
+        PessoaDTOGet dto = new PessoaDTOGet();
+        dto.setId(pessoa.getId());
+        dto.setNome(pessoa.getNome());
+        dto.setCpf(pessoa.getCpf());
+        dto.setTelefone(pessoa.getTelefone());
+        dto.setDataNascimento(pessoa.getDataNascimento());
+        dto.setEmail(pessoa.getEmail());
+
+        return dto;
 
     }
 
