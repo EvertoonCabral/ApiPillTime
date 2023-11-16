@@ -50,7 +50,7 @@ public class PessoaService {
         if (retorno.isPresent())
             return retorno.get();
         else
-            throw new Exception("Marca com Id " + id + " Não Identificada");
+            throw new Exception("Pessoa com Id " + id + " Não Identificada");
 
     }
 
@@ -64,7 +64,7 @@ public class PessoaService {
         if (retorno.isPresent())
             return convertToDTO(retorno.get());
         else
-            throw new Exception("Marca com Id " + id + " Não Identificada");
+            throw new Exception("Pessoa com Id " + id + " Não Identificada");
 
     }
 
