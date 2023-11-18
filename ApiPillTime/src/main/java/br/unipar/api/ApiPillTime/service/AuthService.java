@@ -70,11 +70,11 @@ public class AuthService {
 
         idoso.setCuidador(cuidador);
 
-        vincularIdosoACuidador(idoso, cuidador);
+
 
 
         try {
-            idosoRepository.save(idoso);
+            vincularIdosoACuidador(idoso, cuidador);
             usuarioRepository.save(usuario);
         } catch (DataAccessException e) {
             throw new RuntimeException("Erro ao salvar informações do idoso e usuário", e);
