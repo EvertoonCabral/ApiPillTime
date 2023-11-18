@@ -12,8 +12,7 @@ import lombok.Setter;
 public class LoginResponseDTO {
 
     private String token;
-
-    private Long id;
+    private Long pessoaId;
 }
 
 
