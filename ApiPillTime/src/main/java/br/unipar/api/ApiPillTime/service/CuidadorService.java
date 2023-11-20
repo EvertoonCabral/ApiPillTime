@@ -2,15 +2,10 @@ package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.Idoso;
-import br.unipar.api.ApiPillTime.model.Pessoa;
 import br.unipar.api.ApiPillTime.model.dto.CuidadorDTO;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
-import br.unipar.api.ApiPillTime.repository.IdosoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;

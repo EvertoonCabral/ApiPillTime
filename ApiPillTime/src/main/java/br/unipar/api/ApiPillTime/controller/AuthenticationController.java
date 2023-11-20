@@ -64,7 +64,7 @@ public class AuthenticationController {
 
 
                 try {
-                    Usuario novoUsuario = usuarioService.registerCuidador(registerDTO);
+                        usuarioService.registerCuidador(registerDTO);
                     return new ResponseEntity<>("Cuidador Registrado com Sucesso!", HttpStatus.CREATED);
                 } catch (Exception e) {
                     return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

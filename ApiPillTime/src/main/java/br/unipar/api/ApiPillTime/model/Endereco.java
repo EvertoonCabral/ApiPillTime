@@ -54,7 +54,7 @@ private String estado;
     private Date dataCadastro;
 
     @JsonIgnore
-    private boolean stAtivo;
+    private boolean stAtivo = true;
 
 
 }

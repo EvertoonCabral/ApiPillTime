@@ -7,21 +7,21 @@ import br.unipar.api.ApiPillTime.user.RegisterDTO;
 import br.unipar.api.ApiPillTime.user.UserRepository;
 import br.unipar.api.ApiPillTime.user.UserRole;
 import br.unipar.api.ApiPillTime.user.Usuario;
-import br.unipar.api.ApiPillTime.repository.CuidadorRepository; // Se você tem um repositório específico para Cuidador
+import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class UsuarioService {
     @Autowired
     private UserRepository usuarioRepository;
     @Autowired
-    private CuidadorRepository cuidadorRepository; // Se aplicável
+    private CuidadorRepository cuidadorRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -36,7 +36,6 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Transactional
     public Usuario save(Usuario usuario) {
         return userRepository.save(usuario);
     }
@@ -50,7 +49,6 @@ public class UsuarioService {
     @Transactional
     public Usuario registerCuidador(RegisterDTO registerDTO) {
 
-        // Criação e preenchimento do Cuidador a partir do DTO.
         Cuidador cuidador = new Cuidador();
         cuidador.setNome(registerDTO.getPessoa().getNome());
         cuidador.setCpf(registerDTO.getPessoa().getCpf());

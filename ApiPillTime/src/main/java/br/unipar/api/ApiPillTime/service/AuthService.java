@@ -4,11 +4,9 @@ import br.unipar.api.ApiPillTime.model.*;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
 import br.unipar.api.ApiPillTime.repository.IdosoRepository;
-import br.unipar.api.ApiPillTime.user.UserContextService;
 import br.unipar.api.ApiPillTime.user.UserRepository;
 import br.unipar.api.ApiPillTime.user.UserRole;
 import br.unipar.api.ApiPillTime.user.Usuario;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class AuthService {

@@ -1,6 +1,5 @@
 package br.unipar.api.ApiPillTime.model;
 
-import br.unipar.api.ApiPillTime.user.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -12,7 +11,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -59,7 +57,8 @@ public abstract class Pessoa {
     @Size(min = 11, max = 11)
     private String cpf;
 
-    private String Telefone;
+    @NotNull
+    private String telefone;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereçoPessoa")
