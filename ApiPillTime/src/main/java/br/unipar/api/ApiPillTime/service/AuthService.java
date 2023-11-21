@@ -42,6 +42,16 @@ public class AuthService {
             throw new IllegalArgumentException("Idoso não pode ser nulo");
         }
 
+        // Verifica se já existe um Idoso com o mesmo CPF
+        if (idosoRepository.findByCpf(idosoDTO.getCpf()).isPresent()) {
+            throw new IllegalArgumentException("Já existe um idoso cadastrado com este CPF");
+        }
+
+        // Verifica se já existe um Idoso com o mesmo e-mail
+        if (idosoRepository.findByEmail(idosoDTO.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Já existe um idoso cadastrado com este e-mail");
+        }
+
         Idoso idoso = new Idoso();
         idoso.setNome(idosoDTO.getNome());
         idoso.setCpf(idosoDTO.getCpf());
@@ -55,7 +65,6 @@ public class AuthService {
         Endereco endereco = enderecoService.convertToEntity(idosoDTO.getEndereco());
         idoso.setEndereco(endereco);
 
-        // Criação de uma nova entidade Usuario para representar as credenciais do idoso.
         Usuario usuario = new Usuario();
         usuario.setLogin(idosoDTO.getLogin());
         usuario.setPassword(passwordEncoder.encode(idosoDTO.getSenha()));
@@ -67,9 +76,6 @@ public class AuthService {
 
         idoso.setCuidador(cuidador);
 
-
-
-
         try {
             vincularIdosoACuidador(idoso, cuidador);
             usuarioRepository.save(usuario);
@@ -77,6 +83,7 @@ public class AuthService {
             throw new RuntimeException("Erro ao salvar informações do idoso e usuário", e);
         }
     }
+
     @Transactional
     public void vincularIdosoACuidador(Idoso idoso, Cuidador cuidador) {
         if (idoso == null || cuidador == null) {
@@ -90,11 +97,10 @@ public class AuthService {
         }
         cuidador.getListaIdoso().add(idoso);
 
-
         cuidadorRepository.save(cuidador);
-
-        idosoRepository.save(idoso);
+        // idosoRepository.save(idoso);
     }
+
 
 
 

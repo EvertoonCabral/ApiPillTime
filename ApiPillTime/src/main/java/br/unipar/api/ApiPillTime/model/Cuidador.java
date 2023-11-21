@@ -24,8 +24,8 @@ public class Cuidador  extends Pessoa{
     @OneToMany
     private List<Remedio> listaRemedio = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cuidador", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Idoso> listaIdoso= new ArrayList<>();
+    @OneToMany(mappedBy = "cuidador", orphanRemoval = true)
+    private List<Idoso> listaIdoso = new ArrayList<>();
 
 
 }
