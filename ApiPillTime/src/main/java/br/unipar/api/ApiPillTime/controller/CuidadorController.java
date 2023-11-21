@@ -134,31 +134,31 @@ public class CuidadorController {
     }
 
 
-    //validado
     @PostMapping("/{cuidadorId}/adicionar-remedio")
     public ResponseEntity<Object> addRemedioToCuidador(@PathVariable Long cuidadorId, @RequestBody RemedioDTO remedioDTO) {
         try {
             Cuidador cuidador = cuidadorService.validateCuidadorExists(cuidadorId);
 
             Remedio remedio = remedioService.convertToEntity(remedioDTO);
-            remedio = remedioService.insert(remedioService.convertToDTO(remedio));  // Salvando o remédio primeiro
 
-            cuidador.getListaRemedio().add(remedio);
-            cuidadorService.edit(cuidador);  // Atualiza o cuidador com o novo remédio
+            // Verifica se o remédio já está na lista do cuidador antes de adicionar
+            if (!cuidador.getListaRemedio().contains(remedio)) {
+                remedio = remedioService.insert(remedioService.convertToDTO(remedio)); // Salvando o remédio
+                cuidadorService.adicionarRemedioAoCuidador(cuidadorId, remedio); // Adiciona o remédio ao cuidador
 
-            // Preparando uma mensagem de resposta personalizada
-            String mensagemPersonalizada = String.format("Remédio '%s' foi adicionado com sucesso ao cuidador '%s'.",
-                    remedio.getNome(),
-                    cuidador.getNome());
-
-            return ResponseEntity.ok(mensagemPersonalizada);
-
+                String mensagemPersonalizada = String.format("Remédio '%s' foi adicionado com sucesso ao cuidador '%s'.",
+                        remedio.getNome(), cuidador.getNome());
+                return ResponseEntity.ok(mensagemPersonalizada);
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("O remédio já está na lista do cuidador.");
+            }
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorMessage(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
         }
     }
+
 
 
 

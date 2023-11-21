@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Cuidador;
 import br.unipar.api.ApiPillTime.model.Idoso;
+import br.unipar.api.ApiPillTime.model.Remedio;
 import br.unipar.api.ApiPillTime.model.dto.CuidadorDTO;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
@@ -123,6 +124,15 @@ public class CuidadorService {
         idoso.setObservacao(idosoDTO.getObservacao());
 
         return idoso;
+    }
+
+    public void adicionarRemedioAoCuidador(Long cuidadorId, Remedio remedio) {
+        Cuidador cuidador = cuidadorRepository.findById(cuidadorId)
+                .orElseThrow(() -> new RuntimeException("Cuidador não encontrado"));
+
+        cuidador.getListaRemedio().add(remedio);
+        remedio.setCuidador(cuidador);
+        cuidadorRepository.save(cuidador);
     }
 
 
