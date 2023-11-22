@@ -15,6 +15,7 @@ import java.util.HashMap;  // Para usar o HashMap no tratamento de exceções.
 import java.util.Map;     // Para o tipo de retorno do corpo de resposta do erro.
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/idoso")
@@ -65,10 +66,13 @@ public class IdososController {
 
     @GetMapping
     @ApiOperation(value = "Retorna uma lista de Idosos")
-    public ResponseEntity<List<Idoso>> findAll() {
+    public ResponseEntity<List<IdosoDTO>> findAll() {
         try {
             List<Idoso> idosos = idosoService.findAll();
-            return new ResponseEntity<>(idosos, HttpStatus.OK);
+            List<IdosoDTO> idososDTO = idosos.stream()
+                    .map(idosoService::convertIdosoToDto)
+                    .collect(Collectors.toList());
+            return new ResponseEntity<>(idososDTO, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -76,10 +80,11 @@ public class IdososController {
 
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Retorna um idoso pelo seu ID")
-    public ResponseEntity<Idoso> findById(@PathVariable Long id) {
+    public ResponseEntity<IdosoDTO> findById(@PathVariable Long id) {
         try {
             Idoso idoso = idosoService.findById(id);
-            return new ResponseEntity<>(idoso, HttpStatus.OK);
+            IdosoDTO idosoDTO = idosoService.convertIdosoToDto(idoso);
+            return new ResponseEntity<>(idosoDTO, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }

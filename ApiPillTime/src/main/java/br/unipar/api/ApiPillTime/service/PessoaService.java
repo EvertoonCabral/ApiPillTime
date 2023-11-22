@@ -21,6 +21,15 @@ public class PessoaService {
 
     }
 
+    public Pessoa findByCpf(String cpf) throws Exception {
+        Optional<Pessoa> retorno = pessoaRepository.findByCpf(cpf);
+
+        if (retorno.isPresent())
+            return retorno.get();
+        else
+            throw new Exception("Pessoa com CPF " + cpf + " Não Identificada");
+    }
+
 
     public Pessoa edit(Pessoa pessoa) throws Exception {
         pessoaRepository.saveAndFlush(pessoa);
