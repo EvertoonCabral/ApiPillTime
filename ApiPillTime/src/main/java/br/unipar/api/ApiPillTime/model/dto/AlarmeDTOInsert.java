@@ -19,10 +19,7 @@ public class AlarmeDTOInsert {
 
     private  String titulo;
     private String descricao;
-
     @Future(message = "A data do alarme não pode estar no passado")
-    @ApiModelProperty(example = "25-09-2023 14:30")
-    @JsonFormat(pattern="dd-MM-yyyy HH:mm")
     private LocalDateTime alarme;
 
 

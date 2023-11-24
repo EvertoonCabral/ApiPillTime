@@ -75,6 +75,14 @@ public class IdosoService {
             throw new Exception("Marca com Id "+id+" Não Identificada");
         }
     }
+
+    public Idoso findByCpf(String cpf) throws Exception {
+        return idosoRepository.findByCpf(cpf)
+                .orElseThrow(() -> new Exception("Idoso com cpf " + cpf + " não encontrado."));
+    }
+
+
+
     public List<Idoso> findByFillters(String nome){
         return idosoRepository.findByNomeContainingAllIgnoringCase(nome);
     }

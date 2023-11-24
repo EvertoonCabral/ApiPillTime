@@ -116,6 +116,21 @@ public class IdososController {
         }
     }
 
+
+    @GetMapping("/cpf/{cpf}")
+    @ApiOperation(value = "Retorna um  idoso apartir do CPF")
+    public ResponseEntity<IdosoDTO> getIdosoByCpf(@PathVariable String cpf) {
+        System.out.println("Buscando idoso com CPF: " + cpf);
+        try {
+            IdosoDTO idosoDTO = idosoService.convertIdosoToDto(idosoService.findByCpf(cpf));
+            return ResponseEntity.ok(idosoDTO);
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar idoso com CPF: " + cpf + ". Erro: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
     }
 
 
