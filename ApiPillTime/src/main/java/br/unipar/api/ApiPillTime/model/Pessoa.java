@@ -74,4 +74,19 @@ public abstract class Pessoa {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", cpf='" + cpf + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", endereco=" + endereco +
+                ", stAtivo=" + stAtivo +
+                ", dataCadastro=" + dataCadastro +
+                ", tipoUsuario=" + tipoUsuario +
+                '}';
+    }
 }

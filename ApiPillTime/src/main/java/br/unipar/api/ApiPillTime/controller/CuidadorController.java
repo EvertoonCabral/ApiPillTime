@@ -214,7 +214,7 @@ public class CuidadorController {
         }
     }
 
-
+/*
     @ApiOperation(value = "Adicionar um alarme à lista de alarmes de um idoso")
     @PostMapping("/{cuidadorId}/idoso/{idosoId}/alarme")
     public ResponseEntity<?> addAlarmeToIdoso(@PathVariable Long cuidadorId,
@@ -245,6 +245,35 @@ public class CuidadorController {
         }
     }
 
+*/
+@ApiOperation(value = "Adicionar um alarme à lista de alarmes de um idoso")
+@PostMapping("/{cuidadorId}/idoso/alarme")
+public ResponseEntity<?> addAlarmeToIdoso(@PathVariable Long cuidadorId,
+                                          @RequestParam String cpfIdoso,
+                                          @RequestBody AlarmeDTOInsert alarmeDtoInsert) {
+    try {
+        Cuidador cuidador = cuidadorService.findById(cuidadorId);
+        if (cuidador == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiErrorMessage("Cuidador não encontrado."));
+        }
+
+        Idoso idoso = idosoService.findByCpf(cpfIdoso);
+        if (idoso == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiErrorMessage("Idoso com CPF " + cpfIdoso + " não encontrado."));
+        }
+
+        // Aqui, você chama o método no serviço, passando o DTO do alarme
+        Idoso updatedIdoso = idosoService.addAlarmeToIdoso(idoso.getId(), alarmeDtoInsert);
+
+        // Retorna sucesso
+        return ResponseEntity.ok("Alarme adicionado com sucesso ao idoso com CPF " + cpfIdoso + ".");
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiErrorMessage("Ocorreu um erro ao adicionar o alarme: " + e.getMessage()));
+    }
+}
 
 
 

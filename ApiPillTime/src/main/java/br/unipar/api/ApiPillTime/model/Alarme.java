@@ -1,6 +1,7 @@
 package br.unipar.api.ApiPillTime.model;
 
 import br.unipar.api.ApiPillTime.model.dto.RemedioDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,7 @@ public class Alarme {
     private Date dtCadastrado;
     @ManyToOne
     @JoinColumn(name = "IdosoId")
+    @JsonIgnore
     private Idoso idoso;
     @OneToMany
     private List<Remedio> RemediosIdosos;

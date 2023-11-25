@@ -121,4 +121,15 @@ public class PessoaController {
         }
     }
 
+    @GetMapping(path = "/cpfcnpj/{cpf}")
+    @ApiOperation(value = "Obter uma pessoa pelo seu CPF")
+    public ResponseEntity<?> findBy_Cpf(@PathVariable String cpf) {
+        try {
+            Pessoa pessoa = pessoaService.findByCpf(cpf);
+            return ResponseEntity.ok(pessoa);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(ex.getMessage()));
+        }
+    }
+
 }

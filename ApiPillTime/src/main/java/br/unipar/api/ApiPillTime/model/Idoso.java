@@ -1,7 +1,9 @@
 package br.unipar.api.ApiPillTime.model;
 
 import br.unipar.api.ApiPillTime.model.dto.EnderecoDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -35,6 +37,7 @@ public class Idoso extends Pessoa{
 
     @ManyToOne
     @JoinColumn(name = "CuidadorId")
+    @JsonBackReference
     private Cuidador cuidador;
 
     private String observacao;

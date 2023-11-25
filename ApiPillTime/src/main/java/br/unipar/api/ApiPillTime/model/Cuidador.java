@@ -1,6 +1,7 @@
 package br.unipar.api.ApiPillTime.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Cuidador  extends Pessoa{
     private List<Remedio> listaRemedio = new ArrayList<>();
 
     @OneToMany(mappedBy = "cuidador", orphanRemoval = true)
+    @JsonManagedReference
     private List<Idoso> listaIdoso = new ArrayList<>();
 
 
