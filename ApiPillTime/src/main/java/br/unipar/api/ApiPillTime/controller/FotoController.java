@@ -18,10 +18,10 @@ public class FotoController {
     private FotoService fotoService;
 
     @PostMapping("/upload")
-    public ResponseEntity<Foto> uploadFoto(@RequestParam("file") MultipartFile file,
-                                           @RequestParam("remedioId") Long remedioId) throws IOException {
-        Foto fotoSalva = fotoService.salvarFoto(file, remedioId);
-        return ResponseEntity.ok(fotoSalva);
+    public ResponseEntity<String> uploadFoto(@RequestParam("file") MultipartFile file,
+                                             @RequestParam("alarmeId") Long alarmeId) throws IOException {
+        Foto fotoSalva = fotoService.salvarFoto(file, alarmeId);
+        return ResponseEntity.ok("Foto salva com sucesso. ID da Foto: " + fotoSalva.getId());
     }
 
     @GetMapping("/{id}")
