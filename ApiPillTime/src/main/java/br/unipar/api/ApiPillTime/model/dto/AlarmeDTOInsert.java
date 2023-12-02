@@ -24,12 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AlarmeDTOInsert {
 
-    /*
-    private  String titulo;
-    private String descricao;
-    @Future(message = "A data do alarme não pode estar no passado")
-    private LocalDateTime alarme;
-*/
+
 
     private  String titulo;
     private String descricao;
@@ -46,6 +41,7 @@ public class AlarmeDTOInsert {
     private boolean statusAlarme = true;
 
     @OneToOne
+    @JsonIgnore
     private Foto fotoAlarme;
 
 
