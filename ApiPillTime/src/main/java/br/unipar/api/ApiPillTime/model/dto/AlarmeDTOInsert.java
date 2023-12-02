@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model.dto;
 
+import br.unipar.api.ApiPillTime.model.Foto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,6 +11,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Future;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -42,6 +44,9 @@ public class AlarmeDTOInsert {
 
     @JsonIgnore
     private boolean statusAlarme = true;
+
+    @OneToOne
+    private Foto fotoAlarme;
 
 
 

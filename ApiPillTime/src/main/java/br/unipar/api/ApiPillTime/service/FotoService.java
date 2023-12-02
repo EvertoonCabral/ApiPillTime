@@ -1,10 +1,8 @@
 package br.unipar.api.ApiPillTime.service;
 
-
 import br.unipar.api.ApiPillTime.model.Foto;
-import br.unipar.api.ApiPillTime.model.Remedio;
+import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
 import br.unipar.api.ApiPillTime.repository.FotoRepository;
-import br.unipar.api.ApiPillTime.repository.RemedioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,15 +18,15 @@ public class FotoService {
     private FotoRepository fotoRepository;
 
     @Autowired
-    private RemedioRepository remedioRepository;
+    private AlarmeRepository alarmeRepository;
 
-    public Foto salvarFoto(MultipartFile file, Long remedioId) throws IOException {
-        Remedio remedio = remedioRepository.findById(remedioId)
-                .orElseThrow(() -> new RuntimeException("Remédio não encontrado"));
+    public Foto salvarFoto(MultipartFile file, Long alarmeId) throws IOException {
+        var alarme = alarmeRepository.findById(alarmeId)
+                .orElseThrow(() -> new RuntimeException("Alarme não encontrado"));
 
         Foto foto = new Foto();
         foto.setArquivo(file.getBytes());
-        foto.setRemedio(remedio);
+        foto.setAlarme(alarme);
 
         return fotoRepository.save(foto);
     }
@@ -42,7 +40,7 @@ public class FotoService {
     }
 
     public Foto atualizarFoto(Long id, MultipartFile file) throws IOException {
-        Foto fotoExistente = buscarFotoPorId(id)
+        var fotoExistente = buscarFotoPorId(id)
                 .orElseThrow(() -> new RuntimeException("Foto não encontrada"));
 
         fotoExistente.setArquivo(file.getBytes());
@@ -52,5 +50,4 @@ public class FotoService {
     public void deletarFoto(Long id) {
         fotoRepository.deleteById(id);
     }
-
 }

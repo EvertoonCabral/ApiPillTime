@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model;
 
+import br.unipar.api.ApiPillTime.model.dto.AlarmeDTOInsert;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -8,13 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "Foto")
-@ApiModel(description = "Tabela para armazenamento das fotos dos alarmes")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Foto {
 
     @Id
@@ -26,8 +26,7 @@ public class Foto {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "remedioId")
-    private Remedio remedio;
-
+    @JoinColumn(name = "alarmeId")
+    private Alarme alarme;
 
 }
