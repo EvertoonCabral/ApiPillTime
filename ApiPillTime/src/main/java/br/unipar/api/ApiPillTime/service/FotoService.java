@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +43,11 @@ public class FotoService {
         return fotoRepository.findAll();
     }
 
-
+    public byte[] getFotoByAlarmeId(Long alarmeId) {
+        return fotoRepository.findByAlarmeId(alarmeId)
+                .map(Foto::getArquivo)
+                .orElseThrow(() -> new EntityNotFoundException("Foto não encontrada para o alarme com ID: " + alarmeId));
+    }
 
     public void deletarFoto(Long id) {
         fotoRepository.deleteById(id);

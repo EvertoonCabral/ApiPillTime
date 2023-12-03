@@ -3,6 +3,7 @@ package br.unipar.api.ApiPillTime.controller;
 import br.unipar.api.ApiPillTime.model.Foto;
 import br.unipar.api.ApiPillTime.service.FotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,4 +43,14 @@ public class FotoController {
         fotoService.deletarFoto(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/alarmes/{alarmeId}/foto")
+    public ResponseEntity<byte[]> getFotoByAlarmeId(@PathVariable Long alarmeId) {
+        byte[] fotoData = fotoService.getFotoByAlarmeId(alarmeId);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(fotoData);
+    }
+
 }

@@ -29,7 +29,6 @@ public class Alarme {
     private Long id;
     private String titulo;
     private String Descricao;
-    private Date dtCadastrado;
     @ManyToOne
     @JoinColumn(name = "IdosoId")
     @JsonIgnore

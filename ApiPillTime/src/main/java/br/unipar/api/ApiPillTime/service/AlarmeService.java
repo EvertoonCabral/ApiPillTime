@@ -107,6 +107,7 @@ public class AlarmeService {
                 .map(remedioService::convertToEntity)
                 .collect(Collectors.toList()));
         alarme.setAlarme(dto.getAlarme());
+        alarme.setStatusAlarme(true);
         return alarme;
     }
 

@@ -30,5 +30,6 @@ public class AlarmeDTOInsert {
     @Future(message = "A data do alarme não pode estar no passado")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime alarme;
+    @Column(name = "idFoto")
     private Long idFoto;
 }
