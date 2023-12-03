@@ -25,25 +25,10 @@ import java.util.List;
 public class AlarmeDTOInsert {
 
 
-
-    private  String titulo;
+    private String titulo;
     private String descricao;
     @Future(message = "A data do alarme não pode estar no passado")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime alarme;
-
-    @JsonIgnore
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Date dataCadastro;
-
-    @JsonIgnore
-    private boolean statusAlarme = true;
-
-    @OneToOne
-    @JsonIgnore
-    private Foto fotoAlarme;
-
-
-
+    private Long idFoto;
 }

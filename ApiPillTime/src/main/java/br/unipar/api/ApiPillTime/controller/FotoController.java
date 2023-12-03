@@ -18,17 +18,15 @@ public class FotoController {
     private FotoService fotoService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFoto(@RequestParam("file") MultipartFile file,
-                                             @RequestParam("alarmeId") Long alarmeId) throws IOException {
-        Foto fotoSalva = fotoService.salvarFoto(file, alarmeId);
-        return ResponseEntity.ok("Foto salva com sucesso. ID da Foto: " + fotoSalva.getId());
+    public ResponseEntity<?> uploadFoto(@RequestParam("file") MultipartFile file) throws IOException {
+       return ResponseEntity.ok(fotoService.salvarFoto(file));
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Foto> getFotoById(@PathVariable Long id) {
-        return fotoService.buscarFotoPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(fotoService.buscarFotoPorId(id));
+
     }
 
     @GetMapping
@@ -37,11 +35,7 @@ public class FotoController {
         return ResponseEntity.ok(fotos);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Foto> updateFoto(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
-        Foto fotoAtualizada = fotoService.atualizarFoto(id, file);
-        return ResponseEntity.ok(fotoAtualizada);
-    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteFoto(@PathVariable Long id) {

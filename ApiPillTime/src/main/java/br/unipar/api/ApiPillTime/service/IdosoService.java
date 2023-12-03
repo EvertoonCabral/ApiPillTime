@@ -1,10 +1,12 @@
 package br.unipar.api.ApiPillTime.service;
 
 import br.unipar.api.ApiPillTime.model.Alarme;
+import br.unipar.api.ApiPillTime.model.Foto;
 import br.unipar.api.ApiPillTime.model.Idoso;
 import br.unipar.api.ApiPillTime.model.dto.AlarmeDTOInsert;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
+import br.unipar.api.ApiPillTime.repository.FotoRepository;
 import br.unipar.api.ApiPillTime.repository.IdosoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,13 @@ public class IdosoService {
 
     @Autowired
     AlarmeRepository alarmeRepository;
+
+    @Autowired
+    FotoRepository fotoRepository;
+
+
+    @Autowired
+    FotoService fotoService;
 
     private AlarmeService alarmeService;
 
@@ -101,7 +110,13 @@ public class IdosoService {
         idoso.getAlarmesIdoso().add(alarme);
 
         // Salva o alarme e o idoso
-        alarmeRepository.save(alarme);
+        Alarme alarmeRetornado = alarmeRepository.save(alarme) ;
+
+        Foto foto = fotoService.buscarFotoPorId(alarmeDtoInsert.getIdFoto());
+
+        foto.setAlarme(alarmeRetornado);
+        fotoRepository.saveAndFlush(foto);
+
         return idosoRepository.save(idoso);
     }
 

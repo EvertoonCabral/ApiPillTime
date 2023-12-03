@@ -22,11 +22,11 @@ public class Foto {
     private Long id;
 
     @Column(name = "foto", nullable = false, columnDefinition = "bytea")
-    private byte [] arquivo;
+    private byte[] arquivo;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "alarmeId")
     private Alarme alarme;
+
 
 }
