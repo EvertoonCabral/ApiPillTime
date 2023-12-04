@@ -105,20 +105,29 @@ public class IdosoService {
         alarme.setTitulo(alarmeDtoInsert.getTitulo());
         alarme.setDescricao(alarmeDtoInsert.getDescricao());
         alarme.setAlarme(alarmeDtoInsert.getAlarme());
-
+        alarme.setIdFoto(alarmeDtoInsert.getIdFoto());
         alarme.setIdoso(idoso);
-        idoso.getAlarmesIdoso().add(alarme);
+        alarme.setStatusAlarme(true);
 
-        // Salva o alarme e o idoso
-        Alarme alarmeRetornado = alarmeRepository.save(alarme) ;
+        // Primeiro, salve o alarme para gerar um ID
+        Alarme alarmeSalvo = alarmeRepository.save(alarme);
 
-        Foto foto = fotoService.buscarFotoPorId(alarmeDtoInsert.getIdFoto());
+        // Agora, se tiver uma foto, associe-a ao alarme
+        if (alarmeDtoInsert.getIdFoto() != null) {
+            Foto foto = fotoService.buscarFotoPorId(alarmeDtoInsert.getIdFoto());
+            if (foto != null) {
+                foto.setAlarme(alarmeSalvo);
+                fotoRepository.save(foto);
+                alarmeSalvo.setIdFoto(foto.getId());
+            }
+        }
 
-        foto.setAlarme(alarmeRetornado);
-        fotoRepository.saveAndFlush(foto);
+        idoso.getAlarmesIdoso().add(alarmeSalvo);
+        idosoRepository.save(idoso);
 
-        return idosoRepository.save(idoso);
+        return idoso;
     }
+
 
 
     public List<AlarmeDTOInsert> findAlarmesDtoByIdoso(Long idosoId) throws Exception {
@@ -130,6 +139,7 @@ public class IdosoService {
             dto.setTitulo(alarme.getTitulo());
             dto.setDescricao(alarme.getDescricao());
             dto.setAlarme(alarme.getAlarme());
+            dto.setIdFoto(alarme.getIdFoto());
             return dto;
         }).collect(Collectors.toList());
     }

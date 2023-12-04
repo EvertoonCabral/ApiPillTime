@@ -264,7 +264,6 @@ public ResponseEntity<?> addAlarmeToIdoso(@PathVariable Long cuidadorId,
                     .body(new ApiErrorMessage("Idoso com CPF " + cpfIdoso + " não encontrado."));
         }
 
-        // Aqui, você chama o método no serviço, passando o DTO do alarme
         Idoso updatedIdoso = idosoService.addAlarmeToIdoso(idoso.getId(), alarmeDtoInsert);
 
         // Retorna sucesso

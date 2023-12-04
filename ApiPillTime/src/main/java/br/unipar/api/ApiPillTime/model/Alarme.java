@@ -37,6 +37,8 @@ public class Alarme {
     private List<Remedio> RemediosIdosos;
     private LocalDateTime alarme;
     private boolean statusAlarme;
+    @Column(name = "idFotoAlarme")
+    private Long idFoto;
 
 
 
