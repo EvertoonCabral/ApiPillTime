@@ -1,5 +1,6 @@
 package br.unipar.api.ApiPillTime.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
@@ -42,6 +43,7 @@ public class Remedio {
 
     @ManyToOne
     @JoinColumn(name = "cuidador_id")
+    @JsonBackReference
     private Cuidador cuidador;
 
 

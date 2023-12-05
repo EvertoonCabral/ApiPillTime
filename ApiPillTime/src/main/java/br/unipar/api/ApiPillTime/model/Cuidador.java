@@ -22,7 +22,10 @@ import java.util.List;
 public class Cuidador  extends Pessoa{
 
 
+
+
     @OneToMany
+    @JsonManagedReference
     private List<Remedio> listaRemedio = new ArrayList<>();
 
     @OneToMany(mappedBy = "cuidador", orphanRemoval = true)

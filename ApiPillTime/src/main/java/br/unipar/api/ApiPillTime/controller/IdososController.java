@@ -130,8 +130,23 @@ public class IdososController {
         }
     }
 
-
+    @GetMapping(path = "/full/{id}")
+    @ApiOperation(value = "Retorna um idoso pelo seu ID com todas as informações, incluindo o cuidador")
+    public ResponseEntity<?> findFullByIdoso(@PathVariable Long id) {
+        try {
+            Idoso idoso = idosoService.findFullById(id);
+            return ResponseEntity.ok(idoso);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("mensagem", "Erro ao buscar idoso: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
     }
+
+
+
+
+}
 
 
 

@@ -170,6 +170,16 @@ public class IdosoService {
     }
 
 
+    public Idoso findFullById(Long id) throws Exception {
+        Optional<Idoso> retorno = idosoRepository.findById(id);
+        if (retorno.isPresent()) {
+            return retorno.get();
+        } else {
+            throw new Exception("Idoso com Id " + id + " Não Identificado");
+        }
+    }
+
+
 
 
 }

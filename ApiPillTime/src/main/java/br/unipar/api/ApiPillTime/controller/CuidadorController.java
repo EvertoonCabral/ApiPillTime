@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/cuidador")
@@ -91,6 +93,18 @@ public class CuidadorController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiErrorMessage(e.getMessage()));
+        }
+    }
+
+    @GetMapping(path = "/full/{id}")
+    public ResponseEntity<?> getCuidadorFullById(@PathVariable Long id) {
+        try {
+            Cuidador cuidador = cuidadorService.findById(id);
+            return ResponseEntity.ok(cuidador);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("mensagem", "Erro ao buscar cuidador: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
     }
 
