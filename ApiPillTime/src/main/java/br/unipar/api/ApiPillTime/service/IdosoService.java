@@ -1,13 +1,14 @@
 package br.unipar.api.ApiPillTime.service;
 
-import br.unipar.api.ApiPillTime.model.Alarme;
-import br.unipar.api.ApiPillTime.model.Foto;
-import br.unipar.api.ApiPillTime.model.Idoso;
+import br.unipar.api.ApiPillTime.model.*;
 import br.unipar.api.ApiPillTime.model.dto.AlarmeDTOInsert;
+import br.unipar.api.ApiPillTime.model.dto.IdosoComCuidadorDTO;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.repository.AlarmeRepository;
+import br.unipar.api.ApiPillTime.repository.CuidadorRepository;
 import br.unipar.api.ApiPillTime.repository.FotoRepository;
 import br.unipar.api.ApiPillTime.repository.IdosoRepository;
+import br.unipar.api.ApiPillTime.user.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class IdosoService {
 
     @Autowired
     FotoRepository fotoRepository;
+
+    @Autowired
+    CuidadorRepository cuidadorRepository;
 
 
     @Autowired
@@ -172,11 +176,36 @@ public class IdosoService {
 
     public Idoso findFullById(Long id) throws Exception {
         Optional<Idoso> retorno = idosoRepository.findById(id);
-        if (retorno.isPresent()) {
-            return retorno.get();
-        } else {
+        if (!retorno.isPresent()) {
             throw new Exception("Idoso com Id " + id + " Não Identificado");
         }
+
+        Idoso idoso = retorno.get();
+        if (idoso.getCuidador() != null && idoso.getCuidador().getId() != null) {
+            // Supondo que você tenha um método para buscar Cuidador por ID
+            Cuidador cuidador = cuidadorRepository.findById(idoso.getCuidador().getId())
+                    .orElseThrow(() -> new Exception("Cuidador não encontrado"));
+            idoso.setCuidador(cuidador);
+        }
+
+        return idoso;
+    }
+
+
+    public IdosoComCuidadorDTO findIdosoWithCuidador(Long id) throws Exception {
+        Idoso idoso = idosoRepository.findById(id)
+                .orElseThrow(() -> new Exception("Idoso não encontrado"));
+
+        IdosoComCuidadorDTO dto = new IdosoComCuidadorDTO();
+        dto.setIdosoId(idoso.getId());
+        dto.setNomeIdoso(idoso.getNome());
+        dto.setTipoUsuario(TipoUsuario.I);
+        dto.setRole(UserRole.USER);
+        if (idoso.getCuidador() != null) {
+            dto.setCuidadorId(idoso.getCuidador().getId());
+        }
+
+        return dto;
     }
 
 

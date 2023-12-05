@@ -2,6 +2,7 @@ package br.unipar.api.ApiPillTime.controller;
 
 import br.unipar.api.ApiPillTime.model.Idoso;
 import br.unipar.api.ApiPillTime.model.dto.AlarmeDTOInsert;
+import br.unipar.api.ApiPillTime.model.dto.IdosoComCuidadorDTO;
 import br.unipar.api.ApiPillTime.model.dto.IdosoDTO;
 import br.unipar.api.ApiPillTime.service.CuidadorService;
 import br.unipar.api.ApiPillTime.service.IdosoService;
@@ -130,18 +131,18 @@ public class IdososController {
         }
     }
 
+    // Em IdososController
+
     @GetMapping(path = "/full/{id}")
-    @ApiOperation(value = "Retorna um idoso pelo seu ID com todas as informações, incluindo o cuidador")
-    public ResponseEntity<?> findFullByIdoso(@PathVariable Long id) {
+    public ResponseEntity<IdosoComCuidadorDTO> getFullIdoso(@PathVariable Long id) {
         try {
-            Idoso idoso = idosoService.findFullById(id);
-            return ResponseEntity.ok(idoso);
+            IdosoComCuidadorDTO idosoDTO = idosoService.findIdosoWithCuidador(id);
+            return ResponseEntity.ok(idosoDTO);
         } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("mensagem", "Erro ao buscar idoso: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
 
 
 
