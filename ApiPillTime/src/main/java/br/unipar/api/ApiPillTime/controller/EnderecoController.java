@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/endereco")
-@Api(tags = "API endereço", description = "endereço")
+@Api(tags = "API Endereço", description = "endereço")
 public class EnderecoController {
 
     @Autowired

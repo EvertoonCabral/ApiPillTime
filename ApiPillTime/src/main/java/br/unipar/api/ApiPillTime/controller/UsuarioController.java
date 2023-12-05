@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuario")
-@Api(tags = "End points responsavel pelo usuario")
+@Api(tags = "Api User")
 public class UsuarioController {
 
     @Autowired

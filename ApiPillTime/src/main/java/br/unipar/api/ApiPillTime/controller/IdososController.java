@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/idoso")
-@Api(tags = "API idoso", description = "Idoso")
+@Api(tags = "API Idoso", description = "Idoso")
 public class IdososController {
     @Autowired
     IdosoService idosoService;
