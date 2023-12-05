@@ -23,7 +23,6 @@ public class Cuidador  extends Pessoa{
 
 
 
-
     @OneToMany
     @JsonManagedReference
     private List<Remedio> listaRemedio = new ArrayList<>();
