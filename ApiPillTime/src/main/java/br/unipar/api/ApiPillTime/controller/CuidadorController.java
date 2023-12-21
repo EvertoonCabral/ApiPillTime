@@ -289,5 +289,47 @@ public ResponseEntity<?> addAlarmeToIdoso(@PathVariable Long cuidadorId,
 }
 
 
+    @PutMapping("/{cuidadorId}/remedio")
+    @ApiOperation(value = "Atualizar um remédio da lista do cuidador usando o nome")
+    public ResponseEntity<?> updateRemedioByNome(@PathVariable Long cuidadorId,
+                                                 @RequestParam String nomeRemedio,
+                                                 @RequestBody RemedioDTO remedioDTO) {
+        try {
+            // Log para verificar o ID do cuidador e o nome do remédio
+            System.out.println("Atualizando remédio. Cuidador ID: " + cuidadorId + ", Nome do remédio: " + nomeRemedio);
+
+            // Verifica se o cuidador existe
+            Cuidador cuidador = cuidadorService.findById(cuidadorId);
+            if (cuidador == null) {
+                System.out.println("Cuidador não encontrado com o ID fornecido.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiErrorMessage("Cuidador não encontrado com o ID fornecido."));
+            }
+
+            // Verifica se o remédio pertence ao cuidador
+            if (cuidador.getListaRemedio().stream().noneMatch(remedio -> remedio.getNome().equalsIgnoreCase(nomeRemedio))) {
+                System.out.println("Remédio com o nome fornecido não encontrado na lista do cuidador.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiErrorMessage("Remédio com o nome fornecido não encontrado na lista do cuidador."));
+            }
+
+            // Log antes de chamar o serviço de atualização
+            System.out.println("Chamando serviço de atualização de remédio.");
+
+            // Atualiza o remédio com os novos dados
+            remedioService.updateRemedioByNome(nomeRemedio, remedioDTO);
+
+            // Log de sucesso
+            System.out.println("Remédio atualizado com sucesso.");
+            return ResponseEntity.ok("Remédio atualizado com sucesso.");
+
+        } catch (Exception e) {
+            // Log de erro
+            System.out.println("Erro ao atualizar remédio: " + e.getMessage());
+            return ResponseEntity.badRequest().body(new ApiErrorMessage(e.getMessage()));
+        }
+    }
+
+
 
 }

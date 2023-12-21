@@ -6,6 +6,7 @@ import br.unipar.api.ApiPillTime.repository.RemedioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -94,6 +95,26 @@ public class RemedioService {
         remedio.setObservacoes(dto.getObservacoes());
         return remedio;
     }
+
+    public void updateRemedioByNome(String nomeRemedio, RemedioDTO remedioDTO) {
+
+
+        Remedio remedio = remedioRepository.findFirstByNome(nomeRemedio)
+                .orElseThrow(() -> new EntityNotFoundException("Remédio não encontrado com o nome fornecido."));
+
+
+        // Atualiza os dados do remédio
+        remedio.setNome(remedioDTO.getNome());
+        remedio.setMarcaRemedio(remedioDTO.getMarcaRemedio());
+        remedio.setDosagem(remedioDTO.getDosagem());
+        remedio.setFormaFarmaceutico(remedioDTO.getFormaFarmaceutico());
+        remedio.setDataValidade(remedioDTO.getDataValidade());
+        remedio.setObservacoes(remedioDTO.getObservacoes());
+
+        // Salva as alterações no banco de dados
+        remedioRepository.save(remedio);
+    }
+
 
 
 }

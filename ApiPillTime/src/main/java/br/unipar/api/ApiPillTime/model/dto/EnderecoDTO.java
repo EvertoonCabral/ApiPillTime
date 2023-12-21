@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EnderecoDTO {
 
+
     private String estado;
 
     private String cidade;
